@@ -8,7 +8,7 @@ plugins {
 version = file("version").readLines().first()
 
 jagr {
-    assignmentId.set("h_id_")
+    assignmentId.set("h12")
     submissions {
         val main by creating {
             studentId.set("ab12cdef")
@@ -18,15 +18,15 @@ jagr {
     }
     graders {
         val graderPublic by creating {
-            graderName.set("_name_-Public")
-            rubricProviderName.set("h_id_.H_id__RubricProvider")
+            graderName.set("H12-Public")
+            rubricProviderName.set("h12.H12_RubricProvider")
             configureDependencies {
                 implementation(libs.algoutils.tutor)
             }
         }
         val graderPrivate by creating {
             parent(graderPublic)
-            graderName.set("_name_-Private")
+            graderName.set("H12-Private")
         }
     }
 }
@@ -38,7 +38,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("h_id_.Main")
+    mainClass.set("h12.Main")
 }
 
 tasks {
