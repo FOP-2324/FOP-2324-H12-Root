@@ -4,22 +4,36 @@ import java.io.IOException;
 
 public class Scanner {
 
-    final CommentFreeReader reader;
+    private final CommentFreeReader reader;
+    private Token prereadToken = null;
 
-    public Scanner(CommentFreeReader reader){
+    public Scanner(CommentFreeReader reader) throws IOException {
         this.reader = reader;
+        prereadToken = preRead();
     }
 
-    private boolean isWhitespace(char c){
-        return  c == ' ' || c == '\t';
+    private static boolean isWhitespace(char c){
+        return  c == '\r' || c == ' ' || c == '\t' || c == '\n';
     }
 
-    public Token scan() throws IOException {
+    private Token preRead() throws IOException {
         StringBuilder tokenString = new StringBuilder();
 
-        while(isWhitespace(reader.peek())){
-            reader.read();
+
+        // Skip whitespaces
+        while (true){
+            if(!reader.isEofNotReached()){ // EOF reached
+                return null;
+            }
+
+
+            if(isWhitespace(reader.peek())){
+                reader.read();
+            }else{
+                break; // non-whitespace character found
+            }
         }
+
 
         while(!isWhitespace(reader.peek())){
             tokenString.append(reader.read());
@@ -28,7 +42,13 @@ public class Scanner {
         return new Token(tokenString.toString());
     }
 
+    public Token scan() throws IOException {
+        Token token = prereadToken;
+        prereadToken = preRead();
+        return token;
+    }
+
     public boolean hasNext(){
-        return false; // TODO: still to do
+        return prereadToken != null;
     }
 }

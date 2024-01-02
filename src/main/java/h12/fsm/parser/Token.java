@@ -18,14 +18,15 @@ public class Token {
 
 
     public enum Type{
-        KEYWORD_INPUT(".i"),
-        KEYWORD_OUTPUT(".o"),
-        KEYWORD_TERMS(".p"),
-        KEYWORD_STATES(".s"),
+        KEYWORD_INPUT_WIDTH(".i"),
+        KEYWORD_OUTPUT_WIDTH(".o"),
+        KEYWORD_NUMBER_OF_TERMS(".p"),
+        KEYWORD_NUMBER_OF_STATES(".s"),
+        KEYWORD_INITIAL_STATE(".r"),
 
-        NUMBER("\\d*"),
-        IDENTIFIER_STATE("\\S*"), //TODO: korrigieren
-        BITFIELD("[01-]*");
+        NUMBER("\\d+"),
+        IDENTIFIER_STATE("[^\\s-]+"),
+        BITFIELD("[01-]+");
 
 
         final String pattern;

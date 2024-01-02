@@ -50,11 +50,15 @@ public class CommentFreeReader {
             }else{
                 // kein Kommentar
                 lookAheadString += firstChar;
-                lookAheadString += secondChar;
+                if(secondChar != '\uFFFF') {
+                    lookAheadString += secondChar;
+                }
             }
         }else{
             // kein Kommentar
-            lookAheadString += firstChar;
+            if(firstChar != '\uFFFF') {
+                lookAheadString += firstChar;
+            }
         }
     }
 

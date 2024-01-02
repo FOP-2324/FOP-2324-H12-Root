@@ -2,6 +2,9 @@ package h12.fsm.parser;
 
 import h12.errors.KissParserException;
 import h12.fsm.BitField;
+import h12.fsm.Fsm;
+import h12.fsm.State;
+import h12.fsm.StateFactory;
 
 public class FsmBuilderImpl implements FsmBuilder{
 
@@ -9,8 +12,16 @@ public class FsmBuilderImpl implements FsmBuilder{
     private int outputSize = -1;
     private int numberOfTerms = -1;
     private int numberOfStates = -1;
+    private int numberOfTermsCounter = 0;
 
+    private final StateFactory stateFactory;
+    private final Fsm fsm = new Fsm();
 
+    private boolean buildFinished = false;
+
+    public FsmBuilderImpl(StateFactory stateFactory){
+        this.stateFactory = stateFactory;
+    }
 
     @Override
     public void setInputSize(int inputSize) throws KissParserException {
@@ -49,6 +60,12 @@ public class FsmBuilderImpl implements FsmBuilder{
     }
 
     @Override
+    public void setInitialState(String initialStateIdentifier) throws KissParserException {
+        State initialState = stateFactory.get(initialStateIdentifier);
+        fsm.setInitialState(initialState);
+    }
+
+    @Override
     public void finishHeader() throws KissParserException { // TODO: in bestehende exceptions auslagern, auch oben bei set MEthoden
         // check
 
@@ -70,16 +87,47 @@ public class FsmBuilderImpl implements FsmBuilder{
     }
 
     @Override
-    public void addTerm(BitField inputField, String inputStateIdentifier, String nextStateIdentifier, BitField outputField) {
+    public void addTerm(BitField inputField, String inputStateIdentifier, String nextStateIdentifier, BitField outputField) throws KissParserException { // TODO: keine Parser Exception, sondern Builder
+        if(inputField.width() != inputSize){
+            throw new KissParserException("Input size not matching!");
+        }
 
-        // TODO
+        if(outputField.width() != outputSize){
+            throw new KissParserException("OutputSize not mathcing!");
+        }
+
+
+        State inputState = stateFactory.get(inputStateIdentifier);
+        fsm.addState(inputState);
+
+        State nextState = stateFactory.get(nextStateIdentifier);
+        fsm.addState(nextState);
+
+        inputState.setTransition(inputField, nextState, outputField);
+
+        numberOfTermsCounter++;
     }
 
     @Override
-    public void finishFSM() {
-
-        // check term count
+    public void finishFSM() throws KissParserException {
 
         // check state factory size
+        if(stateFactory.size() != numberOfStates){
+            throw new KissParserException("Number of States missmatch!");
+        }
+
+        // check numberOfTerms
+        if(numberOfTerms != numberOfTermsCounter){
+            throw new KissParserException("Number of Terms Missmatch!");
+        }
+
+        buildFinished = true;
+    }
+
+    public Fsm getFsm() throws KissParserException {
+        if(!buildFinished){
+            throw new KissParserException("Build not finished!");
+        }
+        return fsm;
     }
 }

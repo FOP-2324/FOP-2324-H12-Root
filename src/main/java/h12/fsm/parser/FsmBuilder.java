@@ -9,7 +9,9 @@ public interface FsmBuilder {
     void setOutputSize(int outputSize) throws KissParserException;
     void setNumberOfTerms(int numberOfTerms) throws KissParserException;
     void setNumberOfStates(int numberOfStates) throws KissParserException;
+    void setInitialState(String initialStateIdentifier) throws KissParserException;
+
     void finishHeader() throws KissParserException;
-    void addTerm(BitField inputField, String inputStateIdentifier, String nextStateIdentifier, BitField outputField);
-    void finishFSM();
+    void addTerm(BitField inputField, String inputStateIdentifier, String nextStateIdentifier, BitField outputField) throws KissParserException;
+    void finishFSM() throws KissParserException;
 }

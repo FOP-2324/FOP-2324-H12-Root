@@ -12,13 +12,12 @@ public class BufferedStateFactory implements StateFactory{
     }
 
     @Override
-    public State create(String name) {
-        State state = stateMap.get(name);
+    public State get(String name) {
+        return stateMap.computeIfAbsent(name, StateImpl::new);
+    }
 
-        if(state == null){
-            state = new StateImpl(name);
-        }
-
-        return state;
+    @Override
+    public int size() {
+        return stateMap.size();
     }
 }

@@ -1,5 +1,6 @@
 package h12.fsm.parser;
 
+import h12.errors.BadIdentifierException;
 import h12.errors.BadNumberException;
 import h12.errors.KissParserException;
 import h12.fsm.BitField;
@@ -28,7 +29,7 @@ public class FsmParser {
 
     private Token consumeAndCheckToken(Token.Type type) throws IOException, KissParserException {
         if(!currentToken.is(type)){
-            throw new KissParserException("Missmatch type"); // TODO: eigener type
+            throw new KissParserException("Bad token parsed: expected %s, got %s".formatted(type, currentToken));
         }
 
         Token oldToken = currentToken;
@@ -36,66 +37,87 @@ public class FsmParser {
         return oldToken;
     }
 
-    public void parseFSM() throws IOException, KissParserException {
+    public void parse() throws KissParserException, IOException {
+        parseFSM();
+    }
+
+    private void parseFSM() throws IOException, KissParserException {
         parseHeader();
         builder.finishHeader();
         parseTerms();
         builder.finishFSM();
     }
 
-    private void parseHeader() throws IOException, BadNumberException {
+    private void parseHeader() throws IOException, KissParserException {
         while (true){
-            if(currentToken.is(Token.Type.KEYWORD_INPUT)){
-                parseInputSize();
-            } else if (currentToken.is(Token.Type.KEYWORD_OUTPUT)) {
-                parseOutputSize();
-            } else if (currentToken.is(Token.Type.KEYWORD_TERMS)) {
+            if(currentToken.is(Token.Type.KEYWORD_INPUT_WIDTH)){
+                parseInputWidth();
+            } else if (currentToken.is(Token.Type.KEYWORD_OUTPUT_WIDTH)) {
+                parseOutputWidth();
+            } else if (currentToken.is(Token.Type.KEYWORD_NUMBER_OF_TERMS)) {
                 parseNumberOfTerms();
-            }else if (currentToken.is(Token.Type.KEYWORD_STATES)){
+            }else if (currentToken.is(Token.Type.KEYWORD_NUMBER_OF_STATES)){
                 parseNumberOfStates();
+            }else if (currentToken.is(Token.Type.KEYWORD_INITIAL_STATE)){
+                parseInitialState();
             }else{
                 return;
             }
         }
     }
 
-    public void parseInputSize() throws IOException, BadNumberException {
-        consumeToken(); // TODO: ggf mit check?
+    private void parseInputWidth() throws IOException, KissParserException {
+        consumeAndCheckToken(Token.Type.KEYWORD_INPUT_WIDTH);
 
         if(currentToken.is(Token.Type.NUMBER)){
             builder.setInputSize(Integer.parseInt(currentToken.getValue()));
+            consumeToken();
         }else{
             throw new BadNumberException("");
         }
     }
 
-    public void parseOutputSize() throws IOException, BadNumberException {
-        consumeToken(); // TODO: ggf mit check?
+    private void parseOutputWidth() throws IOException, KissParserException {
+        consumeAndCheckToken(Token.Type.KEYWORD_OUTPUT_WIDTH);
 
         if(currentToken.is(Token.Type.NUMBER)){
             builder.setOutputSize(Integer.parseInt(currentToken.getValue()));
+            consumeToken();
         }else{
             throw new BadNumberException("");
         }
     }
 
-    public void parseNumberOfTerms() throws IOException, BadNumberException {
-        consumeToken(); // TODO: ggf mit check?
+    private void parseNumberOfTerms() throws IOException, KissParserException {
+        consumeAndCheckToken(Token.Type.KEYWORD_NUMBER_OF_TERMS);
 
         if(currentToken.is(Token.Type.NUMBER)){
             builder.setNumberOfTerms(Integer.parseInt(currentToken.getValue()));
+            consumeToken();
         }else{
             throw new BadNumberException("");
         }
     }
 
-    public void parseNumberOfStates() throws IOException, BadNumberException {
-        consumeToken(); // TODO: ggf mit check?
+    private void parseNumberOfStates() throws IOException, KissParserException {
+        consumeAndCheckToken(Token.Type.KEYWORD_NUMBER_OF_STATES);
 
         if(currentToken.is(Token.Type.NUMBER)){
             builder.setNumberOfStates(Integer.parseInt(currentToken.getValue()));
+            consumeToken();
         }else{
             throw new BadNumberException("");
+        }
+    }
+
+    private void parseInitialState() throws IOException, KissParserException {
+        consumeAndCheckToken(Token.Type.KEYWORD_INITIAL_STATE);
+
+        if(currentToken.is(Token.Type.IDENTIFIER_STATE)){
+            builder.setInitialState(currentToken.getValue());
+            consumeToken();
+        }else{
+            throw new BadIdentifierException("");
         }
     }
 

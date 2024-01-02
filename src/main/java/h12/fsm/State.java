@@ -1,6 +1,9 @@
 package h12.fsm;
 
 public interface State {
-    void setTransition(String event, State state);
-    State getNextState(String event);
+    void setTransition(BitField event, State nextState, BitField output);
+    State getNextState(BitField event);
+
+    void visit(FsmVisitor fsmVisitor);
+    String getName();
 }

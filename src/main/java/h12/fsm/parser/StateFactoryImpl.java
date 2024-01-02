@@ -1,7 +1,5 @@
 package h12.fsm.parser;
 
-// Todo: use factory for stzatze
-
 import h12.fsm.State;
 import h12.fsm.StateImpl;
 
