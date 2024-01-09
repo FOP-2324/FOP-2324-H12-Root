@@ -22,7 +22,7 @@ public class Scanner {
 
         // Skip whitespaces
         while (true){
-            if(!reader.isEofNotReached()){ // EOF reached
+            if(!reader.hasNext()){ // EOF reached
                 return null;
             }
 

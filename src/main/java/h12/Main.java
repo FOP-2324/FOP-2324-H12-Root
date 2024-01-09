@@ -4,10 +4,9 @@ import h12.errors.KissParserException;
 import h12.fsm.BufferedStateFactory;
 import h12.fsm.Fsm;
 import h12.fsm.OneHotEncoding;
-import h12.fsm.export.KissExporter;
 import h12.fsm.export.SystemVerilogExporter;
 import h12.fsm.parser.*;
-import h12.ioFactory.FileIOFactory;
+import h12.ioFactory.FileSystemIOFactory;
 import h12.ioFactory.IOFactory;
 
 import java.io.BufferedReader;
@@ -25,7 +24,7 @@ public class Main {
      * @param args program arguments, currently ignored
      */
     public static void main(String[] args) throws IOException, KissParserException {
-        IOFactory ioFactory = new FileIOFactory();
+        IOFactory ioFactory = new FileSystemIOFactory();
 
         BufferedReader reader = ioFactory.createReader("C:\\Users\\juliv\\Downloads\\tmppp\\bbara.kiss2");
         CommentFreeReader commentFreeReader = new CommentFreeReader(reader);

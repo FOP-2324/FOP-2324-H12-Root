@@ -2,7 +2,7 @@ package h12.ioFactory;
 
 import java.io.*;
 
-public class FileIOFactory implements IOFactory{
+public class FileSystemIOFactory implements IOFactory{
 
     @Override
     public boolean supportsReader() {
