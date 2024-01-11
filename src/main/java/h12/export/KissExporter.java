@@ -8,8 +8,10 @@ import h12.template.fsm.State;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+
 public class KissExporter implements FsmExporter {
 
+    // TODO: ggf stattdessen IOFactory
     private final BufferedWriter writer;
 
     public KissExporter(BufferedWriter writer){
@@ -24,31 +26,23 @@ public class KissExporter implements FsmExporter {
         final int[] outputWidth = {0};
 
         StringBuilder stringBuilder = new StringBuilder();
-        final State[] currentState = {null};
 
 
-        fsm.visit(new StateVisitor() {
-            @Override
-            public void visitState(State state) {
-                currentState[0] = state;
-            }
 
-            @Override
-            public void visitTermOfState(BitField inputField, State nextState, BitField outputField) {
-                numberOfTerms[0]++;
-                inputWidth[0] = inputField.width();
-                outputWidth[0] = outputField.width();
+        fsm.forEach(state -> state.forEach(transition -> {
+            numberOfTerms[0]++;
+            inputWidth[0] = transition.getEvent().width();
+            outputWidth[0] = transition.getOutput().width();
 
-                stringBuilder.append(inputField.toString());
-                stringBuilder.append(' ');
-                stringBuilder.append(currentState[0].getName());
-                stringBuilder.append(' ');
-                stringBuilder.append(nextState.getName());
-                stringBuilder.append(' ');
-                stringBuilder.append(outputField.toString());
-                stringBuilder.append('\n');
-            }
-        });
+            stringBuilder.append(transition.getEvent().toString());
+            stringBuilder.append(' ');
+            stringBuilder.append(state.getName());
+            stringBuilder.append(' ');
+            stringBuilder.append(transition.getNextState().getName());
+            stringBuilder.append(' ');
+            stringBuilder.append(transition.getOutput().toString());
+            stringBuilder.append('\n');
+        }));
 
 
         // Header
@@ -72,8 +66,5 @@ public class KissExporter implements FsmExporter {
 
         // Content
         writer.write(stringBuilder.toString());
-
-
-        writer.close(); // TODO: ja oder nein?
     }
 }

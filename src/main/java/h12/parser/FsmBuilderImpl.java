@@ -5,10 +5,10 @@ import h12.template.fsm.*;
 
 public class FsmBuilderImpl implements FsmBuilder{
 
-    private int inputSize = -1;
-    private int outputSize = -1;
-    private int numberOfTerms = -1;
-    private int numberOfStates = -1;
+    private int headerInputSize = -1;
+    private int headerOutputSize = -1;
+    private int headerNumberOfTerms = -1;
+    private int headerNumberOfStates = -1;
     private int numberOfTermsCounter = 0;
 
     private final StateFactory stateFactory = new StateFactory();
@@ -21,38 +21,38 @@ public class FsmBuilderImpl implements FsmBuilder{
 
     @Override
     public void setInputSize(int inputSize) throws KissParserException {
-        if(this.inputSize != -1){
+        if(this.headerInputSize != -1){
             throw new KissParserException("Input size already specified!");
         }
 
-        this.inputSize = inputSize;
+        this.headerInputSize = inputSize;
     }
 
     @Override
     public void setOutputSize(int outputSize) throws KissParserException {
-        if(this.outputSize != -1){
+        if(this.headerOutputSize != -1){
             throw new KissParserException("Input size already specified!");
         }
 
-        this.outputSize = outputSize;
+        this.headerOutputSize = outputSize;
     }
 
     @Override
     public void setNumberOfTerms(int numberOfTerms) throws KissParserException {
-        if(this.numberOfTerms != -1){
+        if(this.headerNumberOfTerms != -1){
             throw new KissParserException("Number of Terms already specified!");
         }
 
-        this.numberOfTerms = numberOfTerms;
+        this.headerNumberOfTerms = numberOfTerms;
     }
 
     @Override
     public void setNumberOfStates(int numberOfStates) throws KissParserException {
-        if(this.numberOfStates != -1){
+        if(this.headerNumberOfStates != -1){
             throw new KissParserException("Number Of states already specified!");
         }
 
-        this.numberOfStates = numberOfStates;
+        this.headerNumberOfStates = numberOfStates;
     }
 
     @Override
@@ -65,30 +65,30 @@ public class FsmBuilderImpl implements FsmBuilder{
     public void finishHeader() throws KissParserException { // TODO: in bestehende exceptions auslagern, auch oben bei set MEthoden
         // check
 
-        if(inputSize == -1){
+        if(headerInputSize == -1){
             throw new KissParserException("Input size not specified in header!");
         }
 
-        if(outputSize == -1){
+        if(headerOutputSize == -1){
             throw new KissParserException("Output size not specified in header!");
         }
 
-        if(numberOfTerms == -1){
+        if(headerNumberOfTerms == -1){
             throw new KissParserException("NumberOfTerms not specified in header!");
         }
 
-        if(numberOfStates == -1){
+        if(headerNumberOfStates == -1){
             throw new KissParserException("Number of states not specified in header!");
         }
     }
 
     @Override
     public void addTerm(BitField inputField, String inputStateIdentifier, String nextStateIdentifier, BitField outputField) throws KissParserException { // TODO: keine Parser Exception, sondern Builder
-        if(inputField.width() != inputSize){
+        if(inputField.width() != headerInputSize){
             throw new KissParserException("Input size not matching!");
         }
 
-        if(outputField.width() != outputSize){
+        if(outputField.width() != headerOutputSize){
             throw new KissParserException("OutputSize not mathcing!");
         }
 
@@ -108,12 +108,12 @@ public class FsmBuilderImpl implements FsmBuilder{
     public void finishFSM() throws KissParserException {
 
         // check state factory size
-        if(stateFactory.getNumberOfStates() != numberOfStates){
+        if(stateFactory.getNumberOfStates() != headerNumberOfStates){
             throw new KissParserException("Number of States missmatch!");
         }
 
         // check numberOfTerms
-        if(numberOfTerms != numberOfTermsCounter){
+        if(headerNumberOfTerms != numberOfTermsCounter){
             throw new KissParserException("Number of Terms Missmatch!");
         }
 
