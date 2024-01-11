@@ -1,4 +1,4 @@
-package h12.parser;
+package h12.parse;
 
 import h12.template.errors.KissParserException;
 import h12.template.fsm.*;

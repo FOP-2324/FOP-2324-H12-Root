@@ -1,4 +1,4 @@
-package h12.parser;
+package h12.parse;
 
 import java.io.BufferedReader;
 import java.io.IOException;

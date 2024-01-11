@@ -1,7 +1,7 @@
 package h12.template.fsm;
 
 import h12.template.errors.BadBitfieldException;
-import h12.parser.Token;
+import h12.parse.Token;
 
 public class BitField {
 

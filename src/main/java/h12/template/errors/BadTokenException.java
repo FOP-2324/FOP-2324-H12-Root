@@ -1,6 +1,6 @@
 package h12.template.errors;
 
-import h12.parser.Token;
+import h12.parse.Token;
 
 public class BadTokenException extends KissParserException{
     public BadTokenException(Token token, Token.Type expectedType) {

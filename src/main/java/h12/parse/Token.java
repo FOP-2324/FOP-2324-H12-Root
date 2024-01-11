@@ -1,4 +1,4 @@
-package h12.parser;
+package h12.parse;
 
 public class Token {
 

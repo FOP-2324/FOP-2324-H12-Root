@@ -6,10 +6,10 @@ import h12.template.fsm.OneHotEncoding;
 import h12.export.SystemVerilogExporter;
 import h12.ioFactory.FileSystemIOFactory;
 import h12.ioFactory.IOFactory;
-import h12.parser.CommentFreeReader;
-import h12.parser.FsmBuilderImpl;
-import h12.parser.FsmParser;
-import h12.parser.Scanner;
+import h12.parse.CommentFreeReader;
+import h12.parse.FsmBuilderImpl;
+import h12.parse.FsmParser;
+import h12.parse.Scanner;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
