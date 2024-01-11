@@ -1,9 +1,6 @@
 package h12.fsm;
 
-import java.lang.annotation.Target;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class StateImpl implements State{
@@ -59,11 +56,11 @@ public class StateImpl implements State{
     }
 
     @Override
-    public void visit(FsmVisitor fsmVisitor) {
-        fsmVisitor.visitState(this);
+    public void visit(StateVisitor stateVisitor) {
+        stateVisitor.visitState(this);
 
         for(Transition transition : transitions){
-            fsmVisitor.visitTermOfState(transition.event, transition.nextState, transition.output);
+            stateVisitor.visitTermOfState(transition.event, transition.nextState, transition.output);
         }
     }
 

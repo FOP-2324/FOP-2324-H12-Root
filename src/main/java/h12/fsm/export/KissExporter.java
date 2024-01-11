@@ -3,7 +3,7 @@ package h12.fsm.export;
 
 import h12.fsm.BitField;
 import h12.fsm.Fsm;
-import h12.fsm.FsmVisitor;
+import h12.fsm.StateVisitor;
 import h12.fsm.State;
 
 import java.io.BufferedWriter;
@@ -27,7 +27,7 @@ public class KissExporter implements FsmExporter {
         final State[] currentState = {null};
 
 
-        fsm.visit(new FsmVisitor() {
+        fsm.visit(new StateVisitor() {
             @Override
             public void visitState(State state) {
                 currentState[0] = state;

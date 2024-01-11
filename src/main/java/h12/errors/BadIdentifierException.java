@@ -1,7 +1,9 @@
 package h12.errors;
 
-public class BadIdentifierException extends KissParserException{
-    public BadIdentifierException(String message) {
-        super(message);
+import h12.fsm.parser.Token;
+
+public class BadIdentifierException extends BadTokenException{
+    public BadIdentifierException(Token token) {
+        super(token, Token.Type.IDENTIFIER_STATE);
     }
 }

@@ -2,6 +2,7 @@ package h12.fsm.parser;
 
 import h12.errors.BadIdentifierException;
 import h12.errors.BadNumberException;
+import h12.errors.BadTokenException;
 import h12.errors.KissParserException;
 import h12.fsm.BitField;
 
@@ -29,7 +30,7 @@ public class FsmParser {
 
     private Token consumeAndCheckToken(Token.Type type) throws IOException, KissParserException {
         if(!currentToken.is(type)){
-            throw new KissParserException("Bad token parsed: expected %s, got %s".formatted(type, currentToken));
+            throw new BadTokenException(currentToken, type);
         }
 
         Token oldToken = currentToken;
@@ -43,7 +44,6 @@ public class FsmParser {
 
     private void parseFSM() throws IOException, KissParserException {
         parseHeader();
-        builder.finishHeader();
         parseTerms();
         builder.finishFSM();
     }
@@ -61,9 +61,11 @@ public class FsmParser {
             }else if (currentToken.is(Token.Type.KEYWORD_INITIAL_STATE)){
                 parseInitialState();
             }else{
+                builder.finishHeader();
                 return;
             }
         }
+
     }
 
     private void parseInputWidth() throws IOException, KissParserException {
@@ -73,7 +75,7 @@ public class FsmParser {
             builder.setInputSize(Integer.parseInt(currentToken.getValue()));
             consumeToken();
         }else{
-            throw new BadNumberException("");
+            throw new BadNumberException(currentToken);
         }
     }
 
@@ -84,7 +86,7 @@ public class FsmParser {
             builder.setOutputSize(Integer.parseInt(currentToken.getValue()));
             consumeToken();
         }else{
-            throw new BadNumberException("");
+            throw new BadNumberException(currentToken);
         }
     }
 
@@ -95,7 +97,7 @@ public class FsmParser {
             builder.setNumberOfTerms(Integer.parseInt(currentToken.getValue()));
             consumeToken();
         }else{
-            throw new BadNumberException("");
+            throw new BadNumberException(currentToken);
         }
     }
 
@@ -106,7 +108,7 @@ public class FsmParser {
             builder.setNumberOfStates(Integer.parseInt(currentToken.getValue()));
             consumeToken();
         }else{
-            throw new BadNumberException("");
+            throw new BadNumberException(currentToken);
         }
     }
 
@@ -117,7 +119,7 @@ public class FsmParser {
             builder.setInitialState(currentToken.getValue());
             consumeToken();
         }else{
-            throw new BadIdentifierException("");
+            throw new BadIdentifierException(currentToken);
         }
     }
 

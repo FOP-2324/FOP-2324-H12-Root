@@ -1,7 +1,5 @@
 package h12.fsm;
 
-import h12.errors.BadBitFieldException;
-
 public class BitField {
 
     public enum BitValue{

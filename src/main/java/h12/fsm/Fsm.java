@@ -24,9 +24,9 @@ public class Fsm {
         return new FsmInstance(this, initialState != null ? initialState : states.iterator().next());
     }
 
-    public void visit(FsmVisitor fsmVisitor){
+    public void visit(StateVisitor stateVisitor){
         for (State state : states){
-            state.visit(fsmVisitor);
+            state.visit(stateVisitor);
         }
     }
 

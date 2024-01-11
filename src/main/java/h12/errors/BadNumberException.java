@@ -1,7 +1,9 @@
 package h12.errors;
 
-public class BadNumberException extends KissParserException{
-    public BadNumberException(String message) {
-        super(message);
+import h12.fsm.parser.Token;
+
+public class BadNumberException extends BadTokenException{
+    public BadNumberException(Token token) {
+        super(token, Token.Type.NUMBER);
     }
 }

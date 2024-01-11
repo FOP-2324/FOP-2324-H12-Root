@@ -27,7 +27,7 @@ public class SystemVerilogExporter implements FsmExporter{
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        fsm.visit(new FsmVisitor() {
+        fsm.visit(new StateVisitor() {
             @Override
             public void visitState(State state) {
                 currentState[0] = state;
