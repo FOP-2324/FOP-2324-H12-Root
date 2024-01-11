@@ -1,4 +1,4 @@
-package h12.errors;
+package h12.template.errors;
 
 public class KissParserException extends Exception{
 

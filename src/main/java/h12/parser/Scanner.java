@@ -1,4 +1,4 @@
-package h12.fsm.parser;
+package h12.parser;
 
 import java.io.IOException;
 

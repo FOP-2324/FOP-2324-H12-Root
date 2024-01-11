@@ -1,4 +1,7 @@
-package h12.fsm;
+package h12.template.fsm;
+
+import h12.template.errors.BadBitfieldException;
+import h12.parser.Token;
 
 public class BitField {
 
@@ -26,7 +29,7 @@ public class BitField {
         }
     }
 
-    public BitField(String string) throws BadBitFieldException {
+    public BitField(String string) throws BadBitfieldException {
 
          this.field = new BitValue[string.length()];
          for(int i = 0; i < string.length(); i++){
@@ -37,7 +40,7 @@ public class BitField {
              } else if (string.charAt(i) == '-') {
                  this.field[i] = BitValue.DC;
              }else{
-                 throw new BadBitFieldException();
+                 throw new BadBitfieldException(new Token(string));
              }
          }
     }

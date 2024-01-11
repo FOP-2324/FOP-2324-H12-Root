@@ -1,4 +1,4 @@
-package h12.fsm;
+package h12.template.fsm;
 
 import java.util.HashMap;
 import java.util.Map;

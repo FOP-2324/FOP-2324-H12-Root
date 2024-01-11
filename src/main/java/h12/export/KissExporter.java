@@ -1,10 +1,10 @@
-package h12.fsm.export;
+package h12.export;
 
 
-import h12.fsm.BitField;
-import h12.fsm.Fsm;
-import h12.fsm.StateVisitor;
-import h12.fsm.State;
+import h12.template.fsm.BitField;
+import h12.template.fsm.Fsm;
+import h12.template.fsm.StateVisitor;
+import h12.template.fsm.State;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

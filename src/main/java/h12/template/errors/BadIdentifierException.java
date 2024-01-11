@@ -1,6 +1,6 @@
-package h12.errors;
+package h12.template.errors;
 
-import h12.fsm.parser.Token;
+import h12.parser.Token;
 
 public class BadIdentifierException extends BadTokenException{
     public BadIdentifierException(Token token) {

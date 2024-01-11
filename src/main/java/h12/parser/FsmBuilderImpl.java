@@ -1,10 +1,7 @@
-package h12.fsm.parser;
+package h12.parser;
 
-import h12.errors.KissParserException;
-import h12.fsm.BitField;
-import h12.fsm.Fsm;
-import h12.fsm.State;
-import h12.fsm.StateFactory;
+import h12.template.errors.KissParserException;
+import h12.template.fsm.*;
 
 public class FsmBuilderImpl implements FsmBuilder{
 
@@ -14,13 +11,12 @@ public class FsmBuilderImpl implements FsmBuilder{
     private int numberOfStates = -1;
     private int numberOfTermsCounter = 0;
 
-    private final StateFactory stateFactory;
+    private final StateFactory stateFactory = new StateFactory();
     private final Fsm fsm = new Fsm();
 
     private boolean buildFinished = false;
 
-    public FsmBuilderImpl(StateFactory stateFactory){
-        this.stateFactory = stateFactory;
+    public FsmBuilderImpl(){
     }
 
     @Override
@@ -103,7 +99,7 @@ public class FsmBuilderImpl implements FsmBuilder{
         State nextState = stateFactory.get(nextStateIdentifier);
         fsm.addState(nextState);
 
-        inputState.setTransition(inputField, nextState, outputField);
+        inputState.setTransition(new Transition(inputField, nextState, outputField));
 
         numberOfTermsCounter++;
     }
@@ -112,7 +108,7 @@ public class FsmBuilderImpl implements FsmBuilder{
     public void finishFSM() throws KissParserException {
 
         // check state factory size
-        if(stateFactory.size() != numberOfStates){
+        if(stateFactory.getNumberOfStates() != numberOfStates){
             throw new KissParserException("Number of States missmatch!");
         }
 

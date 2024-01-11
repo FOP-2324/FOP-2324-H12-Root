@@ -1,10 +1,10 @@
-package h12.fsm.parser;
+package h12.parser;
 
-import h12.errors.BadIdentifierException;
-import h12.errors.BadNumberException;
-import h12.errors.BadTokenException;
-import h12.errors.KissParserException;
-import h12.fsm.BitField;
+import h12.template.errors.BadIdentifierException;
+import h12.template.errors.BadNumberException;
+import h12.template.errors.BadTokenException;
+import h12.template.errors.KissParserException;
+import h12.template.fsm.BitField;
 
 import java.io.IOException;
 

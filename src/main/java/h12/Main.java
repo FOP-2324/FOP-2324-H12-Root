@@ -1,13 +1,15 @@
 package h12;
 
-import h12.errors.KissParserException;
-import h12.fsm.BufferedStateFactory;
-import h12.fsm.Fsm;
-import h12.fsm.OneHotEncoding;
-import h12.fsm.export.SystemVerilogExporter;
-import h12.fsm.parser.*;
+import h12.template.errors.KissParserException;
+import h12.template.fsm.Fsm;
+import h12.template.fsm.OneHotEncoding;
+import h12.export.SystemVerilogExporter;
 import h12.ioFactory.FileSystemIOFactory;
 import h12.ioFactory.IOFactory;
+import h12.parser.CommentFreeReader;
+import h12.parser.FsmBuilderImpl;
+import h12.parser.FsmParser;
+import h12.parser.Scanner;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,7 +32,7 @@ public class Main {
         CommentFreeReader commentFreeReader = new CommentFreeReader(reader);
         Scanner scanner = new Scanner(commentFreeReader);
 
-        FsmBuilderImpl fsmBuilder = new FsmBuilderImpl(new BufferedStateFactory());
+        FsmBuilderImpl fsmBuilder = new FsmBuilderImpl();
         FsmParser fsmParser = new FsmParser(scanner, fsmBuilder);
 
         fsmParser.parse();

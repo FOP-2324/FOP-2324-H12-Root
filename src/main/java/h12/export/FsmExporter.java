@@ -1,6 +1,6 @@
-package h12.fsm.export;
+package h12.export;
 
-import h12.fsm.Fsm;
+import h12.template.fsm.Fsm;
 
 import java.io.IOException;
 
