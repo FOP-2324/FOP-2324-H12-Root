@@ -134,32 +134,31 @@ public class Fsm implements Iterable<State>{
         });
 
 
+        if(initialState != null) {
+            // set initial state
+            if (newNormalStateMap.containsKey(initialState)) {
+                newFsm.initialState = newNormalStateMap.get(initialState);
+            } else {
+                // there are multiple possible initial states, so introduce new one
+                State newInitialState = new State(initialState.getName() + "__INITIAL");
 
-        // set initial state
-        if(newNormalStateMap.containsKey(initialState)){
-            newFsm.initialState = newNormalStateMap.get(initialState);
-        }else{
-            // there are multiple possible initial states, so introduce new one
-            State newInitialState = new State(initialState.getName() + "__INITIAL");
+                // connect to all successors of original initial state
+                initialState.forEach(transition -> {
+                    State newNextState;
+                    var stateAndOutput = new StateAndOutput(transition.getNextState(), transition.getOutput());
+                    if (newChangedStateMap.containsKey(stateAndOutput)) {
+                        newNextState = newChangedStateMap.get(stateAndOutput);
+                    } else {
+                        newNextState = newNormalStateMap.get(transition.getNextState());
+                    }
 
-            // connect to all successors of original initial state
-            initialState.forEach(transition -> {
-                State newNextState;
-                var stateAndOutput = new StateAndOutput(transition.getNextState(), transition.getOutput());
-                if(newChangedStateMap.containsKey(stateAndOutput)){
-                    newNextState = newChangedStateMap.get(stateAndOutput);
-                }else {
-                    newNextState = newNormalStateMap.get(transition.getNextState());
-                }
+                    newInitialState.setTransition(new Transition(transition.getEvent(), newNextState, transition.getOutput()));
 
-                newInitialState.setTransition(new Transition(transition.getEvent(), newNextState, transition.getOutput()));
-
-            });
-            newFsm.addState(newInitialState);
-            newFsm.initialState = newInitialState;
+                });
+                newFsm.addState(newInitialState);
+                newFsm.initialState = newInitialState;
+            }
         }
-
-
 
 
 
