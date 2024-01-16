@@ -3,6 +3,8 @@ package h12.template.fsm;
 import h12.template.errors.BadBitfieldException;
 import h12.parse.Token;
 
+import java.util.Arrays;
+
 public class BitField {
 
     public enum BitValue{
@@ -118,5 +120,18 @@ public class BitField {
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BitField bitField = (BitField) o;
+        return Arrays.equals(field, bitField.field);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(field);
     }
 }

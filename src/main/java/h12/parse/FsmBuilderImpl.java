@@ -1,6 +1,9 @@
 package h12.parse;
 
 import h12.template.errors.KissParserException;
+import h12.template.errors.ParameterAlreadySpecifiedException;
+import h12.template.errors.ParameterNotSpecifiedException;
+import h12.template.errors.SizeMismatchException;
 import h12.template.fsm.*;
 
 public class FsmBuilderImpl implements FsmBuilder{
@@ -22,7 +25,7 @@ public class FsmBuilderImpl implements FsmBuilder{
     @Override
     public void setInputSize(int inputSize) throws KissParserException {
         if(this.headerInputSize != -1){
-            throw new KissParserException("Input size already specified!");
+            throw new ParameterAlreadySpecifiedException("InputSize");
         }
 
         this.headerInputSize = inputSize;
@@ -31,7 +34,7 @@ public class FsmBuilderImpl implements FsmBuilder{
     @Override
     public void setOutputSize(int outputSize) throws KissParserException {
         if(this.headerOutputSize != -1){
-            throw new KissParserException("Input size already specified!");
+            throw new ParameterAlreadySpecifiedException("Output Size!");
         }
 
         this.headerOutputSize = outputSize;
@@ -40,7 +43,7 @@ public class FsmBuilderImpl implements FsmBuilder{
     @Override
     public void setNumberOfTerms(int numberOfTerms) throws KissParserException {
         if(this.headerNumberOfTerms != -1){
-            throw new KissParserException("Number of Terms already specified!");
+            throw new ParameterAlreadySpecifiedException("Number of Terms!");
         }
 
         this.headerNumberOfTerms = numberOfTerms;
@@ -49,7 +52,7 @@ public class FsmBuilderImpl implements FsmBuilder{
     @Override
     public void setNumberOfStates(int numberOfStates) throws KissParserException {
         if(this.headerNumberOfStates != -1){
-            throw new KissParserException("Number Of states already specified!");
+            throw new ParameterAlreadySpecifiedException("Number Of states!");
         }
 
         this.headerNumberOfStates = numberOfStates;
@@ -66,30 +69,30 @@ public class FsmBuilderImpl implements FsmBuilder{
         // check
 
         if(headerInputSize == -1){
-            throw new KissParserException("Input size not specified in header!");
+            throw new ParameterNotSpecifiedException("Input Size");
         }
 
         if(headerOutputSize == -1){
-            throw new KissParserException("Output size not specified in header!");
+            throw new ParameterNotSpecifiedException("Output Size");
         }
 
         if(headerNumberOfTerms == -1){
-            throw new KissParserException("NumberOfTerms not specified in header!");
+            throw new ParameterNotSpecifiedException("number of Terms");
         }
 
         if(headerNumberOfStates == -1){
-            throw new KissParserException("Number of states not specified in header!");
+            throw new ParameterNotSpecifiedException("number of States");
         }
     }
 
     @Override
     public void addTerm(BitField inputField, String inputStateIdentifier, String nextStateIdentifier, BitField outputField) throws KissParserException { // TODO: keine Parser Exception, sondern Builder
         if(inputField.width() != headerInputSize){
-            throw new KissParserException("Input size not matching!");
+            throw new SizeMismatchException();
         }
 
         if(outputField.width() != headerOutputSize){
-            throw new KissParserException("OutputSize not mathcing!");
+            throw new SizeMismatchException();
         }
 
 
@@ -109,12 +112,12 @@ public class FsmBuilderImpl implements FsmBuilder{
 
         // check state factory size
         if(stateFactory.getNumberOfStates() != headerNumberOfStates){
-            throw new KissParserException("Number of States missmatch!");
+            throw new SizeMismatchException();
         }
 
         // check numberOfTerms
         if(headerNumberOfTerms != numberOfTermsCounter){
-            throw new KissParserException("Number of Terms Missmatch!");
+            throw new SizeMismatchException();
         }
 
         buildFinished = true;

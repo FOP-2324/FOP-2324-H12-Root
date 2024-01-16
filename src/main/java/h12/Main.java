@@ -1,5 +1,6 @@
 package h12;
 
+import h12.export.DotExporter;
 import h12.template.errors.KissParserException;
 import h12.template.fsm.Fsm;
 import h12.template.fsm.OneHotEncoding;
@@ -28,7 +29,7 @@ public class Main {
     public static void main(String[] args) throws IOException, KissParserException {
         IOFactory ioFactory = new FileSystemIOFactory();
 
-        BufferedReader reader = ioFactory.createReader("C:\\Users\\juliv\\Downloads\\tmppp\\bbara.kiss2");
+        BufferedReader reader = ioFactory.createReader("C:\\Users\\juliv\\Downloads\\fopi\\in.kiss2");
         CommentFreeReader commentFreeReader = new CommentFreeReader(reader);
         Scanner scanner = new Scanner(commentFreeReader);
 
@@ -39,8 +40,9 @@ public class Main {
 
         Fsm fsm = fsmBuilder.getFsm();
 
-        BufferedWriter writer = ioFactory.createWriter("C:\\Users\\juliv\\Downloads\\tmppp\\bbara_out.sv");
-        SystemVerilogExporter exporter = new SystemVerilogExporter(writer, new OneHotEncoding(), "fsm");
+        BufferedWriter writer = ioFactory.createWriter("C:\\Users\\juliv\\Downloads\\fopi\\out.dot");
+        DotExporter exporter = new DotExporter(writer);
         exporter.export(fsm);
+        writer.close();
     }
 }
