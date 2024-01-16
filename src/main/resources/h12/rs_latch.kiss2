@@ -1,0 +1,10 @@
+.i 2
+.o 1
+.p 5
+.s 2
+.r OFF
+-1 OFF OFF 0
+00 OFF OFF 0
+10 OFF ON  1
+-0 ON  ON  1
+-1 ON  OFF 0 

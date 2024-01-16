@@ -1,11 +1,10 @@
 package h12;
 
 import h12.export.DotExporter;
+import h12.ioFactory.GraphvizOnlineIOFactory;
+import h12.ioFactory.ResourceIOFactory;
 import h12.template.errors.KissParserException;
 import h12.template.fsm.Fsm;
-import h12.template.fsm.OneHotEncoding;
-import h12.export.SystemVerilogExporter;
-import h12.ioFactory.FileSystemIOFactory;
 import h12.ioFactory.IOFactory;
 import h12.parse.CommentFreeReader;
 import h12.parse.FsmBuilderImpl;
@@ -13,7 +12,6 @@ import h12.parse.FsmParser;
 import h12.parse.Scanner;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 
 /**
@@ -27,9 +25,9 @@ public class Main {
      * @param args program arguments, currently ignored
      */
     public static void main(String[] args) throws IOException, KissParserException {
-        IOFactory ioFactory = new FileSystemIOFactory();
 
-        BufferedReader reader = ioFactory.createReader("C:\\Users\\juliv\\Downloads\\fopi\\in.kiss2");
+        IOFactory ioFactory = new ResourceIOFactory();
+        BufferedReader reader = ioFactory.createReader("h12/rs_latch.kiss2");
         CommentFreeReader commentFreeReader = new CommentFreeReader(reader);
         Scanner scanner = new Scanner(commentFreeReader);
 
@@ -40,9 +38,9 @@ public class Main {
 
         Fsm fsm = fsmBuilder.getFsm();
 
-        BufferedWriter writer = ioFactory.createWriter("C:\\Users\\juliv\\Downloads\\fopi\\out.dot");
-        DotExporter exporter = new DotExporter(writer);
+        GraphvizOnlineIOFactory.GraphvizOnlineURLWriter graphvizOnlineURLWriter = (new GraphvizOnlineIOFactory()).createWriter(null);
+        DotExporter exporter = new DotExporter(graphvizOnlineURLWriter);
         exporter.export(fsm);
-        writer.close();
+        System.out.println("URL:\t" + graphvizOnlineURLWriter.getURL());
     }
 }

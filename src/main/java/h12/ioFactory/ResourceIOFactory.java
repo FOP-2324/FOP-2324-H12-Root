@@ -3,7 +3,7 @@ package h12.ioFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class RessourceIOFactory implements IOFactory{
+public class ResourceIOFactory implements IOFactory{
     @Override
     public boolean supportsReader() {
         return true;
@@ -11,7 +11,7 @@ public class RessourceIOFactory implements IOFactory{
 
     @Override
     public BufferedReader createReader(String ioName) throws FileNotFoundException {
-        InputStream resourceStream = getClass().getResourceAsStream(ioName);
+        InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(ioName);
         if (resourceStream == null) {
             throw new FileNotFoundException("Ressource does not exist: %s".formatted(ioName));
         }
