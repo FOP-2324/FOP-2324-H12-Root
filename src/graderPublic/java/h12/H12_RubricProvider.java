@@ -20,11 +20,13 @@ public class H12_RubricProvider implements RubricProvider {
                 .addChildCriteria(
                     criterion(
                         "Die Methoden createReader() und supportsReader() sind vollständig korrekt.",
-                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testFileSystemIOFactoryReader"))
+                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testFileSystemIOFactoryReader")),
+                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testSupportsReader"))
                     ),
                     criterion(
                         "Die Methoden createWriter() und supportsWriter() sind vollständig korrekt.",
-                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testFileSystemIOFactoryWriter"))
+                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testFileSystemIOFactoryWriter")),
+                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testSupportsWriter"))
                     )
                 )
                 .build(),

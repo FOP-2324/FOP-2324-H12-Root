@@ -9,8 +9,7 @@ import org.tudalgo.algoutils.tutor.general.assertions.Context;
 
 import java.io.*;
 
-import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.assertEquals;
-import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.contextBuilder;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission()
 public class TutorTests_H1_1_FileSystemIOFactoryTest {
@@ -69,5 +68,25 @@ public class TutorTests_H1_1_FileSystemIOFactoryTest {
             assertEquals(TutorBufferedWriter.OUT, TutorFileWriter.INSTANCE, context,
                 TR ->  "The BufferedWriter wasn't created with the correct FileWriter");
         }
+    }
+
+    @Test
+    public void testSupportsReader() {
+        Context context = contextBuilder()
+                .subject("FileSystemIOFactory#supportsReader()")
+                .build();
+        final FileSystemIOFactory fileSystemIOFactory = new FileSystemIOFactory();
+        assertTrue(fileSystemIOFactory.supportsReader(), context,
+                TR -> "The method supportsReader() should return true");
+    }
+
+    @Test
+    public void testSupportsWriter() {
+        Context context = contextBuilder()
+                .subject("FileSystemIOFactory#supportsWriter()")
+                .build();
+        final FileSystemIOFactory fileSystemIOFactory = new FileSystemIOFactory();
+        assertTrue(fileSystemIOFactory.supportsWriter(), context,
+                TR -> "The method supportsWriter() should return true");
     }
 }
