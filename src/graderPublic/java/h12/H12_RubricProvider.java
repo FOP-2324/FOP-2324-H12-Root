@@ -1,8 +1,12 @@
 package h12;
 
+import h12.h1.FileSystemIOFactoryTransformer;
+import h12.h1.TutorTests_H1_1_FileSystemIOFactoryTest;
 import org.sourcegrade.jagr.api.rubric.Criterion;
+import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
 import org.sourcegrade.jagr.api.rubric.Rubric;
 import org.sourcegrade.jagr.api.rubric.RubricProvider;
+import org.sourcegrade.jagr.api.testing.RubricConfiguration;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
 
@@ -15,12 +19,12 @@ public class H12_RubricProvider implements RubricProvider {
                 .shortDescription("H1 | Dateien lesbar machen")
                 .addChildCriteria(
                     criterion(
-                        "Die Methoden createReader() und supportsReader() sind vollständig korrekt."
-                        // so in etwa dann
-//                                JUnitTestRef.ofMethod(() -> H1_1_Test.class.getMethod("testDeclaredCorrectly"))
+                        "Die Methoden createReader() und supportsReader() sind vollständig korrekt.",
+                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testFileSystemIOFactoryReader"))
                     ),
                     criterion(
-                        "Die Methoden createWriter() und supportsWriter() sind vollständig korrekt."
+                        "Die Methoden createWriter() und supportsWriter() sind vollständig korrekt.",
+                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testFileSystemIOFactoryWriter"))
                     )
                 )
                 .build(),
@@ -215,5 +219,10 @@ public class H12_RubricProvider implements RubricProvider {
     @Override
     public Rubric getRubric() {
         return RUBRIC;
+    }
+
+    @Override
+    public void configure(RubricConfiguration configuration) {
+        configuration.addTransformer(new FileSystemIOFactoryTransformer());
     }
 }
