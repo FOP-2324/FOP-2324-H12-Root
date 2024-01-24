@@ -3,6 +3,9 @@ package h12.ioFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * An Implementation of {@link IOFactory} for the Resource Files
+ */
 public class ResourceIOFactory implements IOFactory{
     @Override
     public boolean supportsReader() {
