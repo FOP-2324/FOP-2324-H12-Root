@@ -8,6 +8,9 @@ import h12.template.fsm.BitField;
 
 import java.io.IOException;
 
+/**
+ * Class implementing a parser for the kiss2 file
+ */
 public class FsmParser {
 
     private final Scanner scanner;
@@ -15,6 +18,12 @@ public class FsmParser {
 
     private Token currentToken;
 
+    /**
+     * Constructs a new {@link FsmParser}
+     * @param scanner A scanner used as {@link Token} stream
+     * @param builder The {@link FsmBuilder} used to build the {@link h12.template.fsm.Fsm}
+     * @throws IOException Can be thrown in case of File Problem
+     */
     public FsmParser(Scanner scanner, FsmBuilder builder) throws IOException {
         this.scanner = scanner;
         this.builder = builder;
@@ -22,12 +31,24 @@ public class FsmParser {
         currentToken = scanner.scan();
     }
 
+    /**
+     * Consumes the current Token
+     * @return the current Token
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private Token consumeToken() throws IOException {
         Token oldToken = currentToken;
         currentToken = scanner.scan();
         return oldToken;
     }
 
+    /**
+     * Consumes and checks the current Token
+     * @param type the expected Type of the current Token
+     * @return the current Token
+     * @throws IOException Can be thrown in case of File Problem
+     * @throws KissParserException If there is a Token missmatch
+     */
     private Token consumeAndCheckToken(Token.Type type) throws IOException, KissParserException {
         if(!currentToken.is(type)){
             throw new BadTokenException(currentToken, type);
@@ -38,9 +59,20 @@ public class FsmParser {
         return oldToken;
     }
 
+    /**
+     * Parse the Automata
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     public void parse() throws KissParserException, IOException {
         parseFSM();
     }
+
+    /**
+     * Parse the Automata
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
 
     private void parseFSM() throws IOException, KissParserException {
         parseHeader();
@@ -48,6 +80,11 @@ public class FsmParser {
         builder.finishFSM();
     }
 
+    /**
+     * Parse the Header
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private void parseHeader() throws IOException, KissParserException {
         while (true){
             if(currentToken.is(Token.Type.KEYWORD_INPUT_WIDTH)){
@@ -68,6 +105,11 @@ public class FsmParser {
 
     }
 
+    /**
+     * Parse the Input Width
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private void parseInputWidth() throws IOException, KissParserException {
         consumeAndCheckToken(Token.Type.KEYWORD_INPUT_WIDTH);
 
@@ -79,6 +121,12 @@ public class FsmParser {
         }
     }
 
+
+    /**
+     * Parse the Output Width
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private void parseOutputWidth() throws IOException, KissParserException {
         consumeAndCheckToken(Token.Type.KEYWORD_OUTPUT_WIDTH);
 
@@ -90,6 +138,11 @@ public class FsmParser {
         }
     }
 
+    /**
+     * Parse the Number of Terms
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private void parseNumberOfTerms() throws IOException, KissParserException {
         consumeAndCheckToken(Token.Type.KEYWORD_NUMBER_OF_TERMS);
 
@@ -101,6 +154,11 @@ public class FsmParser {
         }
     }
 
+    /**
+     * Parse the Number of States
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private void parseNumberOfStates() throws IOException, KissParserException {
         consumeAndCheckToken(Token.Type.KEYWORD_NUMBER_OF_STATES);
 
@@ -112,6 +170,11 @@ public class FsmParser {
         }
     }
 
+    /**
+     * Parse the Initial State of Automata
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private void parseInitialState() throws IOException, KissParserException {
         consumeAndCheckToken(Token.Type.KEYWORD_INITIAL_STATE);
 
@@ -123,12 +186,22 @@ public class FsmParser {
         }
     }
 
+    /**
+     * Parse all Terms
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private void parseTerms() throws KissParserException, IOException {
         while(scanner.hasNext()){
             parseTerm();
         }
     }
 
+    /**
+     * Parse a single Term of Automata
+     * @throws KissParserException Thrown when there is a Parser Error
+     * @throws IOException Can be thrown in case of File Problem
+     */
     private void parseTerm() throws KissParserException, IOException {
         Token inputBitField = consumeAndCheckToken(Token.Type.BITFIELD);
         Token inputStateIdentifier = consumeAndCheckToken(Token.Type.IDENTIFIER_STATE);

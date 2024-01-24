@@ -6,6 +6,9 @@ import h12.template.errors.ParameterNotSpecifiedException;
 import h12.template.errors.SizeMismatchException;
 import h12.template.fsm.*;
 
+/**
+ * Implementation of {@link FsmBuilder}
+ */
 public class FsmBuilderImpl implements FsmBuilder{
 
     private int headerInputSize = -1;
@@ -18,9 +21,6 @@ public class FsmBuilderImpl implements FsmBuilder{
     private final Fsm fsm = new Fsm();
 
     private boolean buildFinished = false;
-
-    public FsmBuilderImpl(){
-    }
 
     @Override
     public void setInputSize(int inputSize) throws KissParserException {
@@ -88,11 +88,11 @@ public class FsmBuilderImpl implements FsmBuilder{
     @Override
     public void addTerm(BitField inputField, String inputStateIdentifier, String nextStateIdentifier, BitField outputField) throws KissParserException { // TODO: keine Parser Exception, sondern Builder
         if(inputField.width() != headerInputSize){
-            throw new SizeMismatchException();
+            throw new SizeMismatchException("Input Size");
         }
 
         if(outputField.width() != headerOutputSize){
-            throw new SizeMismatchException();
+            throw new SizeMismatchException("Output size");
         }
 
 
@@ -112,17 +112,22 @@ public class FsmBuilderImpl implements FsmBuilder{
 
         // check state factory size
         if(stateFactory.getNumberOfStates() != headerNumberOfStates){
-            throw new SizeMismatchException();
+            throw new SizeMismatchException("Number of states");
         }
 
         // check numberOfTerms
         if(headerNumberOfTerms != numberOfTermsCounter){
-            throw new SizeMismatchException();
+            throw new SizeMismatchException("Number of Terms");
         }
 
         buildFinished = true;
     }
 
+    /**
+     *
+     * @return the created {@link Fsm}
+     * @throws KissParserException
+     */
     public Fsm getFsm() throws KissParserException {
         if(!buildFinished){
             throw new KissParserException("Build not finished!");

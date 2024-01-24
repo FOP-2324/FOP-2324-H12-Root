@@ -4,27 +4,50 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * Representing an Automata
+ */
 public class Fsm implements Iterable<State>{
 
     private final Set<State> states = new HashSet<>();
     private State initialState = null;
 
+    /**
+     * Adds a state to Automata
+     * @param state State which get added
+     */
     public void addState(State state){
         states.add(state);
     }
 
+    /**
+     * Set Initial State of Automata
+     * @param state The initial State of Automata
+     */
     public void setInitialState(State state){
         initialState = state;
     }
 
+    /**
+     *
+     * @return the initial State
+     */
     public State getInitialState(){
         return initialState;
     }
 
+    /**
+     * Creates a new Instance of this {@link Fsm}
+     * @return the generated {@link FsmInstance}
+     */
     public FsmInstance createInstance(){
         return new FsmInstance(this, initialState != null ? initialState : states.iterator().next());
     }
 
+    /**
+     *
+     * @return the number of states in this automata
+     */
     public int getNumberOfStates(){
         return states.size();
     }
@@ -35,6 +58,10 @@ public class Fsm implements Iterable<State>{
         return states.iterator();
     }
 
+    /**
+     * Check if the {@link Fsm} is verbose. Which means, it is fully moore
+     * @return true, iff it is verbose
+     */
     public boolean isVerbose(){
         HashMap<State, Set<BitField>> outputOfState = new HashMap<>();
         forEach(state -> outputOfState.put(state, new HashSet<>()));
@@ -50,11 +77,18 @@ public class Fsm implements Iterable<State>{
         return true;
     }
 
-
+    /**
+     * Pair of State and Output
+     */
     private static class StateAndOutput {
         private final State originalState;
         private final BitField output;
 
+        /**
+         * Create new Pair
+         * @param state The state
+         * @param output The output of state
+         */
         public StateAndOutput(State state, BitField output){
             originalState = state;
             this.output = output;
@@ -75,6 +109,10 @@ public class Fsm implements Iterable<State>{
     }
 
 
+    /**
+     * Converts this {@link Fsm} to a verbose {@link Fsm}
+     * @return the verbose Automata
+     */
     public Fsm toVerboseFsm(){
         // Collect output of state
         HashMap<State, Set<BitField>> outputOfState = new HashMap<>();

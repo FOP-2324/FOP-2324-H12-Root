@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Implementation of {@link StateEncoding} for One-Hot
+ */
 public class OneHotEncoding implements StateEncoding {
 
     private int numberOfStates = -1;

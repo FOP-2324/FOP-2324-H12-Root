@@ -2,6 +2,9 @@ package h12.ioFactory;
 
 import java.io.*;
 
+/**
+ * An Implementation of {@link IOFactory} for the Filesystem
+ */
 public class FileSystemIOFactory implements IOFactory{
 
     @Override
