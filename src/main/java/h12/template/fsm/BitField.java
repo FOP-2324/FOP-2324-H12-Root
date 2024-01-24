@@ -5,8 +5,14 @@ import h12.parse.Token;
 
 import java.util.Arrays;
 
+/**
+ * Class representing a Bit Vector
+ */
 public class BitField {
 
+    /**
+     * Enum representing the state of a single literal
+     */
     public enum BitValue{
         DIRECT('1'), INDIRECT('0'), DC('-');
 
@@ -21,9 +27,13 @@ public class BitField {
 
     }
 
-
     private final BitValue[] field;
 
+    /**
+     * Creates a new fixed-length {@link BitField}
+     * @param width the target length
+     * @param value {@link BitValue} which gets replicated width times
+     */
     public BitField(int width, BitValue value){
         field = new BitValue[width];
         for(int i = 0; i < width; i++){
@@ -31,6 +41,11 @@ public class BitField {
         }
     }
 
+    /**
+     * Create a {@link BitField} from a {@link String} representation
+     * @param string the input
+     * @throws BadBitfieldException Thrown if it can not be parsed
+     */
     public BitField(String string) throws BadBitfieldException {
 
          this.field = new BitValue[string.length()];
@@ -47,10 +62,19 @@ public class BitField {
          }
     }
 
+    /**
+     *
+     * @return the width of the vector
+     */
     public int width(){
         return field.length;
     }
 
+    /**
+     * Check if current {@link BitField} is actiev for input
+     * @param input The event
+     * @return true, iff event is captured by this field
+     */
     public boolean isActive(BitField input){
         if(input.field.length != field.length){
             throw new RuntimeException("Bad size of bitfield");
@@ -68,10 +92,20 @@ public class BitField {
         return true;
     }
 
+    /**
+     * Change a single value of Bitfield
+     * @param index The index
+     * @param value The value
+     */
     public void setIndex(int index, BitValue value){
         field[index] = value;
     }
 
+    /**
+     * Or Combines two {@link BitField}s
+     * @param other Other {@link BitField}
+     * @return Or Combination
+     */
     public BitField or(BitField other){
         if(field.length != other.field.length){
             throw new RuntimeException("Bad size of bitfield");
@@ -91,6 +125,11 @@ public class BitField {
     }
 
 
+    /**
+     * Compute Intersection of two {@link BitField}s
+     * @param other other {@link BitField}
+     * @return the Intersection
+     */
     public boolean intersect(BitField other){
         if(field.length != other.field.length){
             throw new RuntimeException("size missmatch");
@@ -112,6 +151,11 @@ public class BitField {
         return toString(BitValue.DC.getSymbol());
     }
 
+    /**
+     * Convert to {@link String} Representation
+     * @param dcSymbol Char which is used for "Don't Care"
+     * @return the generated {@link String}
+     */
     public String toString(char dcSymbol) {
         StringBuilder stringBuilder = new StringBuilder();
 

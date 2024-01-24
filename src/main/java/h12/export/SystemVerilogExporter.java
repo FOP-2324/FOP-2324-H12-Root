@@ -5,19 +5,34 @@ import h12.template.fsm.*;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+/**
+ * Implementation of {@link FsmExporter}, which can be used to export {@link Fsm} as System Verilog-File
+ */
 public class SystemVerilogExporter implements FsmExporter{
 
     private final BufferedWriter writer;
     private final StateEncoding stateEncoding;
     private final String moduleName;
 
+    /**
+     * Constructs a instance of q {@link SystemVerilogExporter}
+     * @param writer Writer which is used to write the output
+     * @param stateEncoding {@link StateEncoding} which is used to encode the States of exported {@link Fsm}
+     * @param moduleName The name of the Module for System Verilog Header
+     */
     public SystemVerilogExporter(BufferedWriter writer, StateEncoding stateEncoding, String moduleName){
         this.writer = writer;
         this.stateEncoding = stateEncoding;
         this.moduleName = moduleName;
     }
 
-    public void generateModuleHeader(int inputBitWidth, int outputBitWith) throws IOException {
+    /**
+     * Writes the Module Header
+     * @param inputBitWidth The Bit Width of Input
+     * @param outputBitWith The Bit Width of Output
+     * @throws IOException Can be thrown in case of File Problem
+     */
+    private void generateModuleHeader(int inputBitWidth, int outputBitWith) throws IOException {
         writer.write("module ");
         writer.write(moduleName);
         writer.write("(input clk, input rst, input [");
@@ -28,11 +43,21 @@ public class SystemVerilogExporter implements FsmExporter{
         writer.newLine();
     }
 
-    public void generateModuleFooter() throws IOException {
+    /**
+     * Writes the Module Footer
+     * @throws IOException Can be thrown in case of File Problem
+     */
+    private void generateModuleFooter() throws IOException {
         writer.write("endmodule\n");
     }
 
-    public void generateVariable(String variableName, int variableBitWidth) throws IOException {
+    /**
+     * Writes a Variable
+     * @param variableName The name of the variable
+     * @param variableBitWidth The Bit Width of this variable
+     * @throws IOException Can be thrown in case of File Problem
+     */
+    private void generateVariable(String variableName, int variableBitWidth) throws IOException {
         writer.write("\tbit [");
         writer.write(String.valueOf(variableBitWidth - 1));
         writer.write(":0] ");
@@ -42,8 +67,12 @@ public class SystemVerilogExporter implements FsmExporter{
 
     }
 
-
-    public void generatePosedgeBlock(State initialState) throws IOException {
+    /**
+     * Writes the Posedge Block
+     * @param initialState The initial state of the Automata
+     * @throws IOException Can be thrown in case of File Problem
+     */
+    private void generatePosedgeBlock(State initialState) throws IOException {
         writer.write("\talways_ff @(posedge clk) begin\n\t\tstate <= rst ? ");
         writer.write(String.valueOf(stateEncoding.getWidth()));
         writer.write("'b");
@@ -53,7 +82,12 @@ public class SystemVerilogExporter implements FsmExporter{
         writer.newLine();
     }
 
-    public void generateConditionsHeader(int inputBitWidth) throws IOException {
+    /**
+     * Writes the Condition Block Header
+     * @param inputBitWidth The width of the Input Symbol
+     * @throws IOException Can be thrown in case of File Problem
+     */
+    private void generateConditionsHeader(int inputBitWidth) throws IOException {
         writer.write("\twire [");
         writer.write(String.valueOf(inputBitWidth + stateEncoding.getWidth() - 1));
         writer.write(":0] tmp;");
@@ -66,8 +100,16 @@ public class SystemVerilogExporter implements FsmExporter{
         writer.write("\t\tcasez(tmp)\n");
     }
 
-    public void generateCondition(State startState, BitField event, State endState, BitField output) throws IOException {
-        writer.write("\t\t\t"); // indentation
+    /**
+     * Writes one Condition
+     * @param startState The start state of transition
+     * @param event The input event of transition
+     * @param endState The end state of transition
+     * @param output The output of transition
+     * @throws IOException Can be thrown in case of File Problem
+     */
+    private void generateCondition(State startState, BitField event, State endState, BitField output) throws IOException {
+        writer.write("\t\t\t"); // indentation // schon gegeben
         writer.write('{');
         writer.write(event.width());
         writer.write("'b");
@@ -88,7 +130,11 @@ public class SystemVerilogExporter implements FsmExporter{
         writer.write('\n');
     }
 
-    public void generateConditionsFooter() throws IOException {
+    /**
+     * Writes the Condition Footer
+     * @throws IOException Can be thrown in case of File Problem
+     */
+    private void generateConditionsFooter() throws IOException {
         writer.write("\t\tendcase\n");
         writer.write("\tend\n");
     }
@@ -99,6 +145,11 @@ public class SystemVerilogExporter implements FsmExporter{
 
         final int[] inputWidth = {0};
         final int[] outputWidth = {0};
+
+        fsm.forEach(from -> from.forEach(transition -> {
+            inputWidth[0] = transition.getEvent().width();
+            outputWidth[0] = transition.getOutput().width();
+        }));
 
         // module definition
         generateModuleHeader(inputWidth[0], outputWidth[0]);
@@ -113,7 +164,6 @@ public class SystemVerilogExporter implements FsmExporter{
         generatePosedgeBlock(initialState);
 
         generateConditionsHeader(inputWidth[0]);
-
 
         fsm.forEach(state -> state.forEach(transition -> {
             try {
