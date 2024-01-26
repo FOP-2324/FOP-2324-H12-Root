@@ -72,6 +72,8 @@ public class CommentFreeReader {
             }else{ // this line is completely empty
                 lookAhead(); // look ahead again
             }
+        } else {
+            lookAheadString = "";
         }
     }
 
