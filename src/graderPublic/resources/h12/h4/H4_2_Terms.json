@@ -1,0 +1,46 @@
+[
+  {
+    "terms": [
+      {
+        "input": "-1",
+        "start": "OFF",
+        "next": "OFF",
+        "output": "0"
+      }
+    ]
+  },
+  {
+    "terms": [
+      {
+        "input": "-1",
+        "start": "OFF",
+        "next": "OFF",
+        "output": "0"
+      },
+      {
+        "input": "00",
+        "start": "OFF",
+        "next": "OFF",
+        "output": "0"
+      },
+      {
+        "input": "10",
+        "start": "OFF",
+        "next": "ON",
+        "output": "1"
+      },
+      {
+        "input": "-0",
+        "start": "ON",
+        "next": "ON",
+        "output": "1"
+      },
+      {
+        "input": "-1",
+        "start": "ON",
+        "next": "OFF",
+        "output": "0"
+      }
+    ]
+  }
+]

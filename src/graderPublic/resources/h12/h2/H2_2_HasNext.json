@@ -1,0 +1,35 @@
+[
+  {
+    "input": ".i 4\n",
+    "expected": true
+  },
+  {
+    "input": ".i 4\n.o 2\n",
+    "expected": true
+  },
+  {
+    "input": "// Test\n.i 4\n",
+    "expected": true
+  },
+  {
+    "input": "// Hello\n// World\n.i 4\n",
+    "expected": true
+  },
+
+  {
+    "input": "",
+    "expected": false
+  },
+  {
+    "input": "\n",
+    "expected": false
+  },
+  {
+    "input": "// Empty file\n",
+    "expected": false
+  },
+  {
+    "input": "// This file\n// only contains\n//comments\n",
+    "expected": false
+  }
+]

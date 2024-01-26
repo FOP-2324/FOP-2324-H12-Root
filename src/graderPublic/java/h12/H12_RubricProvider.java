@@ -2,11 +2,17 @@ package h12;
 
 import h12.h1.FileSystemIOFactoryTransformer;
 import h12.h1.TutorTests_H1_1_FileSystemIOFactoryTest;
+import h12.h2.H2_1_Tests;
+import h12.h2.H2_2_Tests;
+import h12.h3.H3_Tests;
+import h12.h4.H4_1_Tests;
+import h12.h4.H4_2_Tests;
 import org.sourcegrade.jagr.api.rubric.Criterion;
 import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
 import org.sourcegrade.jagr.api.rubric.Rubric;
 import org.sourcegrade.jagr.api.rubric.RubricProvider;
 import org.sourcegrade.jagr.api.testing.RubricConfiguration;
+import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
 
@@ -37,10 +43,13 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H2.1 | Lookahead")
                         .addChildCriteria(
                             criterion(
-                                "Das Einlesen einer Zeile ohne Kommentar in Puffer funktioniert korrekt."
+                                "Das Einlesen einer Zeile ohne Kommentar in Puffer funktioniert korrekt.",
+                                JUnitTestRef.ofMethod(() -> H2_1_Tests.class.getMethod("testNoComments", JsonParameterSet.class)),
+                                JUnitTestRef.ofMethod(() -> H2_1_Tests.class.getMethod("testContentPlusComments", JsonParameterSet.class))
                             ),
                             criterion(
-                                "Der Sonderfall, dass eine Zeile nur aus Kommentaren besteht wird korrekt behandelt."
+                                "Der Sonderfall, dass eine Zeile nur aus Kommentaren besteht wird korrekt behandelt.",
+                                JUnitTestRef.ofMethod(() -> H2_1_Tests.class.getMethod("testCommentsOnly", JsonParameterSet.class))
                             )
                         )
                         .build(),
@@ -48,7 +57,11 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H2.2 | Zeichenstrom nutzen")
                         .addChildCriteria(
                             criterion(
-                                "Die Methoden hasNext() und peek() sind vollständig korrekt."
+                                "Die Methoden hasNext() und peek() sind vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testHasNextEmptyLookAhead")),
+                                JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testHasNextNonEmptyLookAhead")),
+                                JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testPeek"))
+//                                JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testHasNext", JsonParameterSet.class))
                             ),
                             criterion(
                                 "Die Methode read() ist vollständig korrekt."
@@ -61,16 +74,21 @@ public class H12_RubricProvider implements RubricProvider {
                 .shortDescription("H3 | Wörter erkennen ")
                 .addChildCriteria(
                     criterion(
-                        "Die Methode hasNext() ist vollständig korrekt."
+                        "Die Methode hasNext() ist vollständig korrekt.",
+                        JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testHasNextFalse")),
+                        JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testHasNextTrue", String.class))
                     ),
                     criterion(
-                        "Ein Aufruf der Methode scan() liefert korrekt das aktuelle Zeichen zurück."
+                        "Ein Aufruf der Methode scan() liefert korrekt das aktuelle Token zurück.",
+                        JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testScanReturn"))
                     ),
                     criterion(
-                        "Beim Aufruf der Methode scan() wird das nächste Zeichen korrekt eingelesen."
+                        "Beim Aufruf der Methode scan() wird das nächste Token korrekt eingelesen.",
+                        JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testScanReadsNextToken", JsonParameterSet.class))
                     ),
                     criterion(
-                        "Das Ende der Datei wird korrekt behandelt."
+                        "Das Ende der Datei wird korrekt behandelt.",
+                        JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testEof", JsonParameterSet.class))
                     )
                 )
                 .build(),
@@ -81,16 +99,25 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H4.1 | Header parsen")
                         .addChildCriteria(
                             criterion(
-                                "Die Methoden parseOutputWidth(), parseNumberOfTerms() und parseNumberOfStates() sind vollständig korrekt (abgesehen von Exceptionwurf)."
+                                "Die Methoden parseOutputWidth(), parseNumberOfTerms() und parseNumberOfStates() sind vollständig korrekt (abgesehen von Exceptionwurf).",
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseOutputWidth")),
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseNumberOfTerms")),
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseNumberOfStates"))
                             ),
                             criterion(
-                                "Die Methode parseInitialState() ist vollständig korrekt."
+                                "Die Methode parseInitialState() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseInitialState"))
                             ),
                             criterion(
-                                "Eine BadNumberException bzw. BadIDentifierException wird korrekt geworfen, wenn dies gefordert ist."
+                                "Eine BadNumberException bzw. BadIdentifierException wird korrekt geworfen, wenn dies gefordert ist.",
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseOutputWidthException")),
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseNumberOfTermsException")),
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseNumberOfStatesException")),
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseInitialStateException"))
                             ),
                             criterion(
-                                "Die Methode parseHeader() ruft jeweils korrekt die entsprechende Untermethode zum erhaltenen Token auf."
+                                "Die Methode parseHeader() ruft jeweils korrekt die entsprechende Untermethode zum erhaltenen Token auf.",
+                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseHeader"))
                             )
                         )
                         .build(),
@@ -98,10 +125,12 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H4.2 | Term parsen")
                         .addChildCriteria(
                             criterion(
-                                "Die Methode parseTerm() kann einen Übergang korrekt parsen."
+                                "Die Methode parseTerm() kann einen Übergang korrekt parsen.",
+                                JUnitTestRef.ofMethod(() -> H4_2_Tests.class.getMethod("testParseTerm"))
                             ),
                             criterion(
-                                "Die Methode parseTerms() ist vollständig korrekt."
+                                "Die Methode parseTerms() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H4_2_Tests.class.getMethod("testParseTerms", JsonParameterSet.class))
                             )
                         )
                         .build(),

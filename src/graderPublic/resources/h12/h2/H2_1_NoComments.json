@@ -1,0 +1,10 @@
+[
+  {
+    "input": "test\n",
+    "expected": ["test\n"]
+  },
+  {
+    "input": "hello\nworld\n",
+    "expected": ["hello\n", "world\n"]
+  }
+]
