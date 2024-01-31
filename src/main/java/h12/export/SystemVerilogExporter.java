@@ -120,19 +120,19 @@ public class SystemVerilogExporter implements FsmExporter {
     protected void generateCondition(State startState, BitField event, State endState, BitField output) throws IOException {
         writer.write("\t\t\t"); // indentation // schon gegeben
         writer.write('{');
-        writer.write(event.width());
+        writer.write(String.valueOf(event.width()));
         writer.write("'b");
         writer.write(event.toString('?'));
         writer.write(", ");
-        writer.write(stateEncoding.getWidth());
+        writer.write(String.valueOf(stateEncoding.getWidth()));
         writer.write("'b");
         writer.write(stateEncoding.encode(startState).toString());
         writer.write("} : begin nextState = ");
-        writer.write(stateEncoding.getWidth());
+        writer.write(String.valueOf(stateEncoding.getWidth()));
         writer.write("'b");
         writer.write(stateEncoding.encode(endState).toString());
         writer.write("; nextOut = ");
-        writer.write(output.width());
+        writer.write(String.valueOf(output.width()));
         writer.write("'b");
         writer.write(output.toString('?'));
         writer.write("; end");

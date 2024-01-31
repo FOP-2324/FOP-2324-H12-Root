@@ -1,5 +1,7 @@
 package h12;
 
+import h12.export.H7_2_Tests;
+import h12.export.H7_4_Tests;
 import h12.h1.FileSystemIOFactoryTransformer;
 import h12.h1.TutorTests_H1_1_FileSystemIOFactoryTest;
 import h12.h2.H2_1_Tests;
@@ -7,6 +9,10 @@ import h12.h2.H2_2_Tests;
 import h12.h3.H3_Tests;
 import h12.h4.H4_1_Tests;
 import h12.h4.H4_2_Tests;
+import h12.h5.H5_1_Tests;
+import h12.h5.H5_2_Tests;
+import h12.h5.H5_3_Tests;
+import h12.h6.H6_Tests;
 import org.sourcegrade.jagr.api.rubric.Criterion;
 import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
 import org.sourcegrade.jagr.api.rubric.Rubric;
@@ -147,8 +153,11 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H5.1 | Header verstehen")
                         .addChildCriteria(
                             criterion(
-                                // TODO: Add tests
-                                "Die Methoden set{OutputSize, NumberOfTerms, NumberOfStates}() sind vollständig korrekt. (inkl. ParameterAlreadySpecified Exceptionwurf)"
+                                "Die Methoden set{OutputSize, NumberOfTerms, NumberOfStates}() sind vollständig korrekt. (inkl. ParameterAlreadySpecified Exceptionwurf)",
+                                JUnitTestRef.ofMethod(() -> H5_1_Tests.class.getMethod("testSetOutputSize")),
+                                JUnitTestRef.ofMethod(() -> H5_1_Tests.class.getMethod("testSetOutputSizeException")),
+                                JUnitTestRef.ofMethod(() -> H5_1_Tests.class.getMethod("testSetNumberOfTerms")),
+                                JUnitTestRef.ofMethod(() -> H5_1_Tests.class.getMethod("testSetNumberOfTermsException"))
                             ),
                             criterion(
                                 "Die Methoden setInitialState ist vollständig korrekt."
@@ -159,8 +168,9 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H5.2 | Terms verarbeiten")
                         .addChildCriteria(
                             criterion(
-                                // TODO: Add tests
-                                "Die Methode addTerm ist vollständig korrekt."
+                                "Die Methode addTerm ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H5_2_Tests.class.getMethod("testInvalidBitFieldWidths")),
+                                JUnitTestRef.ofMethod(() -> H5_2_Tests.class.getMethod("testAddTermToFsm"))
                             ),
                             criterion(
                                 "StateFactory wird genutzt"
@@ -171,8 +181,15 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H5.3 | finishHeader und finishFsm")
                         .addChildCriteria(
                             criterion(
-                                // TODO: Add tests
-                                "Die Methoden finishHeader() und finishFsm() sind vollständig korrekt."
+                                "Die Methoden finishHeader() und finishFsm() sind vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H5_3_Tests.class.getMethod("testFinishHeaderAllParametersSet")),
+                                JUnitTestRef.ofMethod(() -> H5_3_Tests.class.getMethod("testFinishHeaderMissingInputSize")),
+                                JUnitTestRef.ofMethod(() -> H5_3_Tests.class.getMethod("testFinishHeaderMissingOutputSize")),
+                                JUnitTestRef.ofMethod(() -> H5_3_Tests.class.getMethod("testFinishHeaderMissingNumberOfTerms")),
+                                JUnitTestRef.ofMethod(() -> H5_3_Tests.class.getMethod("testFinishHeaderMissingNumberOfStates")),
+                                JUnitTestRef.ofMethod(() -> H5_3_Tests.class.getMethod("testFinishFsmValid")),
+                                JUnitTestRef.ofMethod(() -> H5_3_Tests.class.getMethod("testFinishFsmStateMismatch")),
+                                JUnitTestRef.ofMethod(() -> H5_3_Tests.class.getMethod("testFinishFsmTermMismatch"))
                             )
                         )
                         .build(),
@@ -190,15 +207,15 @@ public class H12_RubricProvider implements RubricProvider {
                 .shortDescription("H6 | Kiss2 Exporter")
                 .addChildCriteria(
                     criterion(
-                        // TODO: Add tests
-                        "Alle Header-Parameter werden korrekt geschrieben. (Abgesehen vom Initial State)"
+                        "Alle Header-Parameter werden korrekt geschrieben. (Abgesehen vom Initial State)",
+                        JUnitTestRef.ofMethod(() -> H6_Tests.class.getMethod("testHeaders"))
                     ),
                     criterion(
                         "Der Initial State Parameter wird korrekt in Header geschrieben."
                     ),
                     criterion(
-                        //  TODO: Add tests
-                        "Ein Term ist korrekt formatiert."
+                        "Ein Term ist korrekt formatiert.",
+                        JUnitTestRef.ofMethod(() -> H6_Tests.class.getMethod("testSingleTerm"))
                     ),
                     criterion(
                         "Der exporter ist vollständig korrekt."
@@ -220,8 +237,8 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H7.2 | Variable")
                         .addChildCriteria(
                             criterion(
-                                // TODO: Add tests
-                                "Die geforderte Funktionalität wurde korrekt umgesetzt."
+                                "Die geforderte Funktionalität wurde korrekt umgesetzt.",
+                                JUnitTestRef.ofMethod(() -> H7_2_Tests.class.getMethod("testVariable", JsonParameterSet.class))
                             )
                         )
                         .build(),
@@ -237,12 +254,12 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H7.4 | Übergänge")
                         .addChildCriteria(
                             criterion(
-                                // TODO: Add tests
-                                "Die Methode generateConditionsHeader() generiert eine korrekte Zeile."
+                                "Die Methode generateConditionsHeader() generiert eine korrekte Zeile.",
+                                JUnitTestRef.ofMethod(() -> H7_4_Tests.class.getMethod("testConditionsHeader", JsonParameterSet.class))
                             ),
                             criterion(
-                                // TODO: Add tests
-                                "Die Methode generateConditionsHeader() wird korrekt mit allen Übergängen aufgerufen."
+                                "Die Methode generateConditions() wird korrekt mit allen Übergängen aufgerufen und generiert korrekte Zeilen.",
+                                JUnitTestRef.ofMethod(() -> H7_4_Tests.class.getMethod("testConditions", JsonParameterSet.class))
                             )
                         )
                         .build()

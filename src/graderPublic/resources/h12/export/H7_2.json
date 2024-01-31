@@ -1,0 +1,45 @@
+[
+  {
+    "fsm": {
+      "initialState": "OFF",
+      "states": [
+        {
+          "name": "OFF",
+          "transitions": [
+            {
+              "event": "-1",
+              "nextState": "OFF",
+              "output": "0"
+            },
+            {
+              "event": "00",
+              "nextState": "OFF",
+              "output": "0"
+            },
+            {
+              "event": "10",
+              "nextState": "ON",
+              "output": "1"
+            }
+          ]
+        },
+        {
+          "name": "ON",
+          "transitions": [
+            {
+              "event": "-0",
+              "nextState": "ON",
+              "output": "1"
+            },
+            {
+              "event": "-1",
+              "nextState": "OFF",
+              "output": "0"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": "bit [1:0] state;\n\tbit [1:0] nextState;\n\tbit [0:0] nextOut;"
+  }
+]
