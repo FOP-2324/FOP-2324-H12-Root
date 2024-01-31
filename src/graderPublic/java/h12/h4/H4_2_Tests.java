@@ -44,31 +44,6 @@ public class H4_2_Tests {
         verifyNoMoreInteractions(builder);
     }
 
-    @ParameterizedTest
-    @JsonParameterSetTest(value = "H4_2_Terms.json", customConverters = "customConverters")
-    public void testParseTerms(final JsonParameterSet params) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, KissParserException {
-        var terms = params.<List<Term>>get("terms");
-        var tokens = new ArrayList<String>();
-        for (var term : terms) {
-            tokens.add(term.input.toString());
-            tokens.add(term.start);
-            tokens.add(term.next);
-            tokens.add(term.output.toString());
-        }
-
-        var scanner = new H4_TokenScanner(tokens);
-        var builder = mock(FsmBuilder.class);
-        var parser = new FsmParser(scanner, builder);
-        var method = Util.getPrivateParserMethod("parseTerms");
-
-        method.invoke(parser);
-        var inOrder = inOrder(builder);
-        for (var term : terms) {
-            inOrder.verify(builder).addTerm(term.input, term.start, term.next, term.output);
-        }
-        inOrder.verifyNoMoreInteractions();
-    }
-
     @Test
     public void testParseFSM() throws IOException, KissParserException {
         var input = """

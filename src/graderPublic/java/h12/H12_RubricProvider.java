@@ -12,11 +12,18 @@ import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
 import org.sourcegrade.jagr.api.rubric.Rubric;
 import org.sourcegrade.jagr.api.rubric.RubricProvider;
 import org.sourcegrade.jagr.api.testing.RubricConfiguration;
+import org.tudalgo.algoutils.tutor.general.jagr.RubricUtils;
 import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
 
-import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
-
 public class H12_RubricProvider implements RubricProvider {
+
+    private static Criterion criterion(String shortDescription, JUnitTestRef... tests) {
+        if (tests.length == 0) {
+            return Criterion.builder().shortDescription(shortDescription).grader(RubricUtils
+                .graderPrivateOnly()).build();
+        }
+        return RubricUtils.criterion(shortDescription, tests);
+    }
 
     public static final Rubric RUBRIC = Rubric.builder()
         .title("H12 | Automaten parsen")
@@ -29,10 +36,9 @@ public class H12_RubricProvider implements RubricProvider {
                         JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testFileSystemIOFactoryReader")),
                         JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testSupportsReader"))
                     ),
+
                     criterion(
-                        "Die Methoden createWriter() und supportsWriter() sind vollständig korrekt.",
-                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testFileSystemIOFactoryWriter")),
-                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryTest.class.getMethod("testSupportsWriter"))
+                        "Die Methoden createWriter() und supportsWriter() sind vollständig korrekt."
                     )
                 )
                 .build(),
@@ -48,8 +54,7 @@ public class H12_RubricProvider implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H2_1_Tests.class.getMethod("testContentPlusComments", JsonParameterSet.class))
                             ),
                             criterion(
-                                "Der Sonderfall, dass eine Zeile nur aus Kommentaren besteht wird korrekt behandelt.",
-                                JUnitTestRef.ofMethod(() -> H2_1_Tests.class.getMethod("testCommentsOnly", JsonParameterSet.class))
+                                "Der Sonderfall, dass eine Zeile nur aus Kommentaren besteht wird korrekt behandelt."
                             )
                         )
                         .build(),
@@ -60,8 +65,8 @@ public class H12_RubricProvider implements RubricProvider {
                                 "Die Methoden hasNext() und peek() sind vollständig korrekt.",
                                 JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testHasNextEmptyLookAhead")),
                                 JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testHasNextNonEmptyLookAhead")),
-                                JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testPeek"))
-//                                JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testHasNext", JsonParameterSet.class))
+                                JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testPeek")),
+                                JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testHasNext", JsonParameterSet.class))
                             ),
                             criterion(
                                 "Die Methode read() ist vollständig korrekt."
@@ -74,9 +79,7 @@ public class H12_RubricProvider implements RubricProvider {
                 .shortDescription("H3 | Wörter erkennen ")
                 .addChildCriteria(
                     criterion(
-                        "Die Methode hasNext() ist vollständig korrekt.",
-                        JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testHasNextFalse")),
-                        JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testHasNextTrue", String.class))
+                        "Die Methode hasNext() ist vollständig korrekt."
                     ),
                     criterion(
                         "Ein Aufruf der Methode scan() liefert korrekt das aktuelle Token zurück.",
@@ -87,8 +90,7 @@ public class H12_RubricProvider implements RubricProvider {
                         JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testScanReadsNextToken", JsonParameterSet.class))
                     ),
                     criterion(
-                        "Das Ende der Datei wird korrekt behandelt.",
-                        JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testEof", JsonParameterSet.class))
+                        "Das Ende der Datei wird korrekt behandelt."
                     )
                 )
                 .build(),
@@ -105,15 +107,10 @@ public class H12_RubricProvider implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseNumberOfStates"))
                             ),
                             criterion(
-                                "Die Methode parseInitialState() ist vollständig korrekt.",
-                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseInitialState"))
+                                "Die Methode parseInitialState() ist vollständig korrekt."
                             ),
                             criterion(
-                                "Eine BadNumberException bzw. BadIdentifierException wird korrekt geworfen, wenn dies gefordert ist.",
-                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseOutputWidthException")),
-                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseNumberOfTermsException")),
-                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseNumberOfStatesException")),
-                                JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseInitialStateException"))
+                                "Eine BadNumberException bzw. BadIdentifierException wird korrekt geworfen, wenn dies gefordert ist."
                             ),
                             criterion(
                                 "Die Methode parseHeader() ruft jeweils korrekt die entsprechende Untermethode zum erhaltenen Token auf.",
@@ -129,8 +126,7 @@ public class H12_RubricProvider implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H4_2_Tests.class.getMethod("testParseTerm"))
                             ),
                             criterion(
-                                "Die Methode parseTerms() ist vollständig korrekt.",
-                                JUnitTestRef.ofMethod(() -> H4_2_Tests.class.getMethod("testParseTerms", JsonParameterSet.class))
+                                "Die Methode parseTerms() ist vollständig korrekt."
                             )
                         )
                         .build(),
@@ -151,6 +147,7 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H5.1 | Header verstehen")
                         .addChildCriteria(
                             criterion(
+                                // TODO: Add tests
                                 "Die Methoden set{OutputSize, NumberOfTerms, NumberOfStates}() sind vollständig korrekt. (inkl. ParameterAlreadySpecified Exceptionwurf)"
                             ),
                             criterion(
@@ -162,6 +159,7 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H5.2 | Terms verarbeiten")
                         .addChildCriteria(
                             criterion(
+                                // TODO: Add tests
                                 "Die Methode addTerm ist vollständig korrekt."
                             ),
                             criterion(
@@ -173,6 +171,7 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H5.3 | finishHeader und finishFsm")
                         .addChildCriteria(
                             criterion(
+                                // TODO: Add tests
                                 "Die Methoden finishHeader() und finishFsm() sind vollständig korrekt."
                             )
                         )
@@ -191,12 +190,14 @@ public class H12_RubricProvider implements RubricProvider {
                 .shortDescription("H6 | Kiss2 Exporter")
                 .addChildCriteria(
                     criterion(
+                        // TODO: Add tests
                         "Alle Header-Parameter werden korrekt geschrieben. (Abgesehen vom Initial State)"
                     ),
                     criterion(
                         "Der Initial State Parameter wird korrekt in Header geschrieben."
                     ),
                     criterion(
+                        //  TODO: Add tests
                         "Ein Term ist korrekt formatiert."
                     ),
                     criterion(
@@ -219,6 +220,7 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H7.2 | ??")
                         .addChildCriteria(
                             criterion(
+                                // TODO: Add tests
                                 "Die geforderte funktionalität wurde korrekt umgesetzt."
                             )
                         )
@@ -235,9 +237,11 @@ public class H12_RubricProvider implements RubricProvider {
                         .shortDescription("H7.4 | ??")
                         .addChildCriteria(
                             criterion(
+                                // TODO: Add tests
                                 "Die Methode generateConditionsHeader() generiert eine korrekte Zeile."
                             ),
                             criterion(
+                                // TODO: Add tests
                                 "Die Methode generateConditionsHeader() wird korrekt mit allen Übergängen aufgerufen."
                             )
                         )

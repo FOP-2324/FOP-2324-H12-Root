@@ -82,10 +82,4 @@ public class H2_1_Tests {
     public void testContentPlusComments(final JsonParameterSet params) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
         testLookAhead(params);
     }
-
-    @ParameterizedTest
-    @JsonParameterSetTest(value = "H2_1_CommentsOnly.json", customConverters = "customConverters")
-    public void testCommentsOnly(final JsonParameterSet params) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
-        testLookAhead(params);
-    }
 }

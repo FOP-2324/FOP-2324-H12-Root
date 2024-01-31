@@ -2,13 +2,17 @@ package h12.h2;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import h12.parse.CommentFreeReader;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
 import org.tudalgo.algoutils.tutor.general.assertions.Context;
 import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
 import org.tudalgo.algoutils.tutor.general.json.JsonParameterSetTest;
+import org.tudalgo.algoutils.tutor.general.match.Matcher;
+import org.tudalgo.algoutils.tutor.general.reflections.BasicTypeLink;
+import org.tudalgo.algoutils.tutor.general.reflections.FieldLink;
+import org.tudalgo.algoutils.tutor.general.reflections.TypeLink;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +21,12 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.function.Function;
 
-import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.assertEquals;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.assertFalse;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.assertTrue;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.contextBuilder;
 
 @TestForSubmission()
 public class H2_2_Tests {
@@ -36,9 +45,8 @@ public class H2_2_Tests {
     }
 
     @ParameterizedTest
-    @Disabled("Depends on lookAhead()")
     @JsonParameterSetTest(value = "H2_2_HasNext.json", customConverters = "hasNextConverters")
-    public void testHasNext(final JsonParameterSet params) throws IOException {
+    public void testHasNext(final JsonParameterSet params) throws IOException, NoSuchMethodException, IllegalAccessException {
         final String input = params.getString("input");
         final boolean expected = params.getBoolean("expected");
 
@@ -48,7 +56,11 @@ public class H2_2_Tests {
             .subject("CommentFreeReader#hasNext()")
             .build();
 
-        CommentFreeReader cfr = new CommentFreeReader(new BufferedReader(new StringReader(input)));
+        TypeLink type = BasicTypeLink.of(CommentFreeReader.class);
+        FieldLink field = Assertions3.assertFieldExists(type, Matcher.of(f -> f.name().equals("lookAheadString")));
+        CommentFreeReader cfr = mock(CommentFreeReader.class, CALLS_REAL_METHODS);
+        field.set(cfr, input);
+
         assertEquals(expected, cfr.hasNext(), context,
             TR -> "hasNext should return %b".formatted(expected));
     }
@@ -90,10 +102,5 @@ public class H2_2_Tests {
         CommentFreeReader cfr = createCfrAndSetLookAhead(lookAheadString);
         assertEquals(expected, cfr.peek(), context,
             TR -> "peek should return '%c'".formatted(expected));
-    }
-
-    @Test
-    public void testRead() throws IOException {
-        // TODO
     }
 }
