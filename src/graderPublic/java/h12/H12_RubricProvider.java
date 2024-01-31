@@ -209,32 +209,32 @@ public class H12_RubricProvider implements RubricProvider {
                 .shortDescription("H7 | Verilog Exporter")
                 .addChildCriteria(
                     Criterion.builder()
-                        .shortDescription("H7.1 | ??")
+                        .shortDescription("H7.1 | Module Header")
                         .addChildCriteria(
                             criterion(
-                                "Die geforderte funktionalität wurde korrekt umgesetzt."
+                                "Die geforderte Funktionalität wurde korrekt umgesetzt."
                             )
                         )
                         .build(),
                     Criterion.builder()
-                        .shortDescription("H7.2 | ??")
+                        .shortDescription("H7.2 | Variable")
                         .addChildCriteria(
                             criterion(
                                 // TODO: Add tests
-                                "Die geforderte funktionalität wurde korrekt umgesetzt."
+                                "Die geforderte Funktionalität wurde korrekt umgesetzt."
                             )
                         )
                         .build(),
                     Criterion.builder()
-                        .shortDescription("H7.3 | ??")
+                        .shortDescription("H7.3 | Posedge-Block")
                         .addChildCriteria(
                             criterion(
-                                "Die geforderte funktionalität wurde korrekt umgesetzt."
+                                "Die geforderte Funktionalität wurde korrekt umgesetzt."
                             )
                         )
                         .build(),
                     Criterion.builder()
-                        .shortDescription("H7.4 | ??")
+                        .shortDescription("H7.4 | Übergänge")
                         .addChildCriteria(
                             criterion(
                                 // TODO: Add tests
