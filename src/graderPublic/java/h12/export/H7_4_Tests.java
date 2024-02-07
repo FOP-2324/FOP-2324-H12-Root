@@ -32,19 +32,17 @@ public class H7_4_Tests extends H7_Tests {
     public void testConditions(JsonParameterSet params) {
         assertOperations(params, new TutorSystemVerilogExporter(delegate) {
 
-                    @Override
-                    protected void generateCondition(State startState, BitField event, State endState, BitField output) throws IOException {
-                        this.delegate.generateCondition(startState, event, endState, output);
-                    }
-                },
-                (expected, actual, context) -> {
-                    String[] e = Arrays.stream(expected.split("\t\t\t")).map(String::trim).toArray(String[]::new);
-                    String[] a = Arrays.stream(actual.split("\t\t\t")).map(String::trim).toArray(String[]::new);
-                    Arrays.sort(e, Comparator.naturalOrder());
-                    Arrays.sort(a, Comparator.naturalOrder());
-                    Assertions2.assertEquals(e.length, a.length, context, result -> "Expected length %s, but got %s".formatted(e.length, a.length));
-                    Assertions2.assertArrayEquals(e, a, context, result -> "Expected %s, but got %s".formatted(Arrays.toString(e), Arrays.toString(a)));
+                @Override
+                protected void generateCondition(State startState, BitField event, State endState, BitField output) throws IOException {
+                    this.delegate.generateCondition(startState, event, endState, output);
                 }
+            },
+            (expected, actual, context) -> {
+                expected.sort(Comparator.naturalOrder());
+                actual.sort(Comparator.naturalOrder());
+                Assertions2.assertEquals(expected.size(), actual.size(), context, result -> "Expected length %s, but got %s".formatted(expected.size(), actual.size()));
+                Assertions2.assertEquals(expected, actual, context, result -> "Expected %s, but got %s".formatted(expected, actual));
+            }
         );
     }
 }
