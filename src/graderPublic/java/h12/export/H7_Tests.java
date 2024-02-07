@@ -29,6 +29,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.call;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.emptyContext;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class H7_Tests {
@@ -76,9 +77,12 @@ public abstract class H7_Tests {
         Fsm fsm = params.get("fsm");
         String expected = params.get("expected");
         call(() -> {
-            exporter.export(fsm);
-            bufferedWriter.flush();
-        });
+                exporter.export(fsm);
+                bufferedWriter.flush();
+            },
+            emptyContext(),
+            result -> "Failed to export FSM"
+        );
         String actual = writer.toString();
         assertion.accept(toList(expected), toList(actual), contextBuilder().add("Expected", expected).add("Actual", actual).build());
     }

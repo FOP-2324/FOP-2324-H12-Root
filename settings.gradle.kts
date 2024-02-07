@@ -7,4 +7,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "H12-Root"
+rootProject.name = "FOP-2324-H12-Root"
