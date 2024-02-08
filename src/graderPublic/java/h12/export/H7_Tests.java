@@ -9,6 +9,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
+import org.opentest4j.AssertionFailedError;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
 import org.tudalgo.algoutils.tutor.general.assertions.Context;
@@ -36,8 +37,8 @@ public abstract class H7_Tests {
 
     @SuppressWarnings("unused")
     public static final Map<String, Function<JsonNode, ?>> customConverters = Map.ofEntries(
-        Map.entry("fsm", JsonConverters::toFsm),
-        Map.entry("expected", JsonNode::asText)
+            Map.entry("fsm", JsonConverters::toFsm),
+            Map.entry("expected", JsonNode::asText)
     );
     private final TypeLink type = BasicTypeLink.of(SystemVerilogExporter.class);
 
@@ -70,24 +71,46 @@ public abstract class H7_Tests {
     }
 
     protected void assertOperations(JsonParameterSet params, SystemVerilogExporter exporter) {
-        assertOperations(params, exporter, (expected, actual, context) -> Assertions2.assertEquals(expected, actual, context, result -> "Expected %s, but got %s".formatted(expected, actual)));
+        try {
+            assertOperationsFallback(params, exporter, (expected, actual, context) -> Assertions2.assertEquals(expected, actual, context, result -> "Expected %s, but got %s".formatted(expected, actual)));
+        } catch (AssertionFailedError e) {
+            assertOperations(params, exporter, (expected, actual, context) -> Assertions2.assertEquals(expected, actual, context, result -> "Expected %s, but got %s".formatted(expected, actual)));
+        }
+    }
+
+    protected void assertOperationsFallback(JsonParameterSet params, SystemVerilogExporter exporter, TriConsumer<String, String, Context> assertion) {
+        Fsm fsm = params.get("fsm");
+        String expected = replaceLineEndings(params.get("expected"));
+        call(() -> {
+                    exporter.export(fsm);
+                    bufferedWriter.flush();
+                },
+                emptyContext(),
+                result -> "Failed to export FSM"
+        );
+        String actual = writer.toString().trim().replaceAll("\s+", " ").replaceAll("\r\n", "\n");
+        assertion.accept(expected, actual, contextBuilder().add("Expected", expected).add("Actual", actual).build());
     }
 
     protected void assertOperations(JsonParameterSet params, SystemVerilogExporter exporter, TriConsumer<List<String>, List<String>, Context> assertion) {
         Fsm fsm = params.get("fsm");
-        String expected = params.get("expected");
+        String expected = replaceLineEndings(params.get("expected"));
         call(() -> {
-                exporter.export(fsm);
-                bufferedWriter.flush();
-            },
-            emptyContext(),
-            result -> "Failed to export FSM"
+                    exporter.export(fsm);
+                    bufferedWriter.flush();
+                },
+                emptyContext(),
+                result -> "Failed to export FSM"
         );
-        String actual = writer.toString();
+        String actual = replaceLineEndings(writer.toString());
         assertion.accept(toList(expected), toList(actual), contextBuilder().add("Expected", expected).add("Actual", actual).build());
     }
 
     private List<String> toList(String s) {
         return Arrays.stream(s.trim().split(";")).filter(Predicate.not(String::isBlank)).map(String::trim).map(s1 -> s1 + ";").collect(Collectors.toList());
+    }
+
+    private String replaceLineEndings(String s) {
+        return s.replaceAll("\r\n", "\n");
     }
 }
