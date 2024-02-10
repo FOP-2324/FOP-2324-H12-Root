@@ -1,0 +1,26 @@
+[
+  {
+    "input": ".r OFF // Startzustand\n",
+    "expected": [".r OFF \n"]
+  },
+  {
+    "input": "// Test\n.i 4\n.o 2\n",
+    "expected": [".i 4\n", ".o 2\n"]
+  },
+  {
+    "input": ".i 5\n//output:\n.o 3\n",
+    "expected": [".i 5\n", ".o 3\n"]
+  },
+  {
+    "input": "// input:\n.i 5\n//output:\n.o 3\n",
+    "expected": [".i 5\n", ".o 3\n"]
+  },
+  {
+    "input": "// test file\n// input:\n.i 5\n//output:\n.o 3\n",
+    "expected": [".i 5\n", ".o 3\n"]
+  },
+  {
+    "input": "// input:\n.i 5\n//output:\n.o 3\n// the end\n",
+    "expected": [".i 5\n", ".o 3\n"]
+  }
+]

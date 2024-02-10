@@ -1,0 +1,10 @@
+[
+  {
+    "input": ".i 4\n",
+    "expected": true
+  },
+  {
+    "input": "",
+    "expected": false
+  }
+]
