@@ -1,0 +1,14 @@
+[
+  {
+    "input": "//test\n",
+    "expected": []
+  },
+  {
+    "input": "// this is a comment\n",
+    "expected": []
+  },
+  {
+    "input": "// multiple\n//comments\n// in a row\n",
+    "expected": []
+  }
+]

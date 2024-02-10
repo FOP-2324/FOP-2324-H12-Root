@@ -5,8 +5,10 @@ import h12.export.H7_4_Tests;
 import h12.h1.FileSystemIOFactoryTransformer;
 import h12.h1.TutorTests_H1_1_FileSystemIOFactoryPrivateTest;
 import h12.h1.TutorTests_H1_1_FileSystemIOFactoryTest;
+import h12.h2.H2_1_PrivateTests;
 import h12.h2.H2_1_Tests;
 import h12.h2.H2_2_Tests;
+import h12.h3.H3_PrivateTests;
 import h12.h3.H3_Tests;
 import h12.h4.H4_1_Tests;
 import h12.h4.H4_2_Tests;
@@ -45,7 +47,7 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                     ),
                     criterion(
                         "Die Methoden createWriter() und supportsWriter() sind vollständig korrekt.",
-                          JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryPrivateTest.class.getMethod("testFileSystemIOFactoryWriter")),
+                        JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryPrivateTest.class.getMethod("testFileSystemIOFactoryWriter")),
                         JUnitTestRef.ofMethod(() -> TutorTests_H1_1_FileSystemIOFactoryPrivateTest.class.getMethod("testSupportsWriter"))
                     )
                 )
@@ -62,7 +64,8 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H2_1_Tests.class.getMethod("testContentPlusComments", JsonParameterSet.class))
                             ),
                             criterion(
-                                "Der Sonderfall, dass eine Zeile nur aus Kommentaren besteht wird korrekt behandelt."
+                                "Der Sonderfall, dass eine Zeile nur aus Kommentaren besteht wird korrekt behandelt.",
+                                JUnitTestRef.ofMethod(() -> H2_1_PrivateTests.class.getMethod("testCommentsOnly", JsonParameterSet.class))
                             )
                         )
                         .build(),
@@ -87,7 +90,9 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                 .shortDescription("H3 | Wörter erkennen ")
                 .addChildCriteria(
                     criterion(
-                        "Die Methode hasNext() ist vollständig korrekt."
+                        "Die Methode hasNext() ist vollständig korrekt.",
+                        JUnitTestRef.ofMethod(() -> H3_PrivateTests.class.getMethod("testHasNextFalse")),
+                        JUnitTestRef.ofMethod(() -> H3_PrivateTests.class.getMethod("testHasNextTrue", String.class))
                     ),
                     criterion(
                         "Ein Aufruf der Methode scan() liefert korrekt das aktuelle Token zurück.",
@@ -98,7 +103,8 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                         JUnitTestRef.ofMethod(() -> H3_Tests.class.getMethod("testScanReadsNextToken", JsonParameterSet.class))
                     ),
                     criterion(
-                        "Das Ende der Datei wird korrekt behandelt."
+                        "Das Ende der Datei wird korrekt behandelt.",
+                        JUnitTestRef.ofMethod(() -> H3_PrivateTests.class.getMethod("testEof", JsonParameterSet.class))
                     )
                 )
                 .build(),
