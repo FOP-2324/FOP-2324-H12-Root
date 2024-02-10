@@ -10,11 +10,16 @@ import h12.h2.H2_1_Tests;
 import h12.h2.H2_2_Tests;
 import h12.h3.H3_PrivateTests;
 import h12.h3.H3_Tests;
+import h12.h4.H4_1_PrivateTests;
 import h12.h4.H4_1_Tests;
+import h12.h4.H4_2_PrivateTests;
 import h12.h4.H4_2_Tests;
+import h12.h5.H5_1_PrivateTests;
 import h12.h5.H5_1_Tests;
+import h12.h5.H5_2_PrivateTests;
 import h12.h5.H5_2_Tests;
 import h12.h5.H5_3_Tests;
+import h12.h5.H5_4_Tests;
 import h12.h6.H6_Tests;
 import org.sourcegrade.jagr.api.rubric.Criterion;
 import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
@@ -121,10 +126,15 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H4_1_Tests.class.getMethod("testParseNumberOfStates"))
                             ),
                             criterion(
-                                "Die Methode parseInitialState() ist vollständig korrekt."
+                                "Die Methode parseInitialState() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H4_1_PrivateTests.class.getMethod("testParseInitialState"))
                             ),
                             criterion(
-                                "Eine BadNumberException bzw. BadIdentifierException wird korrekt geworfen, wenn dies gefordert ist."
+                                "Eine BadNumberException bzw. BadIdentifierException wird korrekt geworfen, wenn dies gefordert ist.",
+                                JUnitTestRef.ofMethod(() -> H4_1_PrivateTests.class.getMethod("testParseOutputWidthException")),
+                                JUnitTestRef.ofMethod(() -> H4_1_PrivateTests.class.getMethod("testParseNumberOfTermsException")),
+                                JUnitTestRef.ofMethod(() -> H4_1_PrivateTests.class.getMethod("testParseNumberOfStatesException")),
+                                JUnitTestRef.ofMethod(() -> H4_1_PrivateTests.class.getMethod("testParseInitialStateException"))
                             ),
                             criterion(
                                 "Die Methode parseHeader() ruft jeweils korrekt die entsprechende Untermethode zum erhaltenen Token auf.",
@@ -140,7 +150,8 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H4_2_Tests.class.getMethod("testParseTerm"))
                             ),
                             criterion(
-                                "Die Methode parseTerms() ist vollständig korrekt."
+                                "Die Methode parseTerms() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H4_2_PrivateTests.class.getMethod("testParseTerms", JsonParameterSet.class))
                             )
                         )
                         .build(),
@@ -168,7 +179,9 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H5_1_Tests.class.getMethod("testSetNumberOfTermsException"))
                             ),
                             criterion(
-                                "Die Methoden setInitialState ist vollständig korrekt."
+                                "Die Methoden setInitialState ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H5_1_PrivateTests.class.getMethod("testSetInitialState")),
+                                JUnitTestRef.ofMethod(() -> H5_1_PrivateTests.class.getMethod("testSetInitialStateException"))
                             )
                         )
                         .build(),
@@ -181,7 +194,8 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H5_2_Tests.class.getMethod("testAddTermToFsm"))
                             ),
                             criterion(
-                                "StateFactory wird genutzt"
+                                "StateFactory wird genutzt",
+                                JUnitTestRef.ofMethod(() -> H5_2_PrivateTests.class.getMethod("testStateFactoryUsed"))
                             )
                         )
                         .build(),
@@ -205,7 +219,9 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                         .shortDescription("H5.4 | getFsm")
                         .addChildCriteria(
                             criterion(
-                                "Die Fsm wird zurückgegeben wenn die Flag gesetzt ist, andernfalls wird eine Exception geworfen."
+                                "Die Fsm wird zurückgegeben wenn die Flag gesetzt ist, andernfalls wird eine Exception geworfen.",
+                                JUnitTestRef.ofMethod(() -> H5_4_Tests.class.getMethod("testGetFsmUnfinished")),
+                                JUnitTestRef.ofMethod(() -> H5_4_Tests.class.getMethod("testGetFsmFinished"))
                             )
                         )
                         .build()
