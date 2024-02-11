@@ -22,6 +22,7 @@ import h12.h5.H5_2_PrivateTests;
 import h12.h5.H5_2_Tests;
 import h12.h5.H5_3_Tests;
 import h12.h5.H5_4_Tests;
+import h12.h6.H6_PrivateTests;
 import h12.h6.H6_Tests;
 import org.sourcegrade.jagr.api.rubric.Criterion;
 import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
@@ -237,14 +238,16 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                         JUnitTestRef.ofMethod(() -> H6_Tests.class.getMethod("testHeaders"))
                     ),
                     criterion(
-                        "Der Initial State Parameter wird korrekt in Header geschrieben."
+                        "Der Initial State Parameter wird korrekt in Header geschrieben.",
+                        JUnitTestRef.ofMethod(() -> H6_PrivateTests.class.getMethod("testInitialState", JsonParameterSet.class))
                     ),
                     criterion(
                         "Ein Term ist korrekt formatiert.",
                         JUnitTestRef.ofMethod(() -> H6_Tests.class.getMethod("testSingleTerm"))
                     ),
                     criterion(
-                        "Der exporter ist vollständig korrekt."
+                        "Der exporter ist vollständig korrekt.",
+                        JUnitTestRef.ofMethod(() -> H6_PrivateTests.class.getMethod("testExport", JsonParameterSet.class))
                     )
                 )
                 .build(),
