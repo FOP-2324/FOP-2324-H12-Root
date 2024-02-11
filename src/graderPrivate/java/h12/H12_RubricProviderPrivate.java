@@ -9,6 +9,7 @@ import h12.h1.TutorTests_H1_1_FileSystemIOFactoryPrivateTest;
 import h12.h1.TutorTests_H1_1_FileSystemIOFactoryTest;
 import h12.h2.H2_1_PrivateTests;
 import h12.h2.H2_1_Tests;
+import h12.h2.H2_2_PrivateTests;
 import h12.h2.H2_2_Tests;
 import h12.h3.H3_PrivateTests;
 import h12.h3.H3_Tests;
@@ -16,6 +17,7 @@ import h12.h4.H4_1_PrivateTests;
 import h12.h4.H4_1_Tests;
 import h12.h4.H4_2_PrivateTests;
 import h12.h4.H4_2_Tests;
+import h12.h4.H4_3_PrivateTests;
 import h12.h5.H5_1_PrivateTests;
 import h12.h5.H5_1_Tests;
 import h12.h5.H5_2_PrivateTests;
@@ -88,7 +90,8 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H2_2_Tests.class.getMethod("testHasNext", JsonParameterSet.class))
                             ),
                             criterion(
-                                "Die Methode read() ist vollständig korrekt."
+                                "Die Methode read() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H2_2_PrivateTests.class.getMethod("testRead"))
                             )
                         )
                         .build()
@@ -154,7 +157,7 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                             ),
                             criterion(
                                 "Die Methode parseTerms() ist vollständig korrekt.",
-                                JUnitTestRef.ofMethod(() -> H4_2_PrivateTests.class.getMethod("testParseTerms", JsonParameterSet.class))
+                                JUnitTestRef.ofMethod(() -> H4_2_PrivateTests.class.getMethod("testParseTerms"))
                             )
                         )
                         .build(),
@@ -162,7 +165,8 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                         .shortDescription("H4.3 | Fsm parsen ")
                         .addChildCriteria(
                             criterion(
-                                "Die Methode parseFsm() ist vollständig korrekt."
+                                "Die Methode parseFsm() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H4_3_PrivateTests.class.getMethod("testParseFsm"))
                             )
                         )
                         .build()

@@ -155,7 +155,7 @@ public class FsmParser {
     }
 
     /**
-     * Parse the Number of States
+     * Parse the NumFber of States
      * @throws KissParserException Thrown when there is a Parser Error
      * @throws IOException Can be thrown in case of File Problem
      */
