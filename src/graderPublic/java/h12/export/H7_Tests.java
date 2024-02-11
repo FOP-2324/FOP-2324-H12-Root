@@ -37,8 +37,8 @@ public abstract class H7_Tests {
 
     @SuppressWarnings("unused")
     public static final Map<String, Function<JsonNode, ?>> customConverters = Map.ofEntries(
-            Map.entry("fsm", JsonConverters::toFsm),
-            Map.entry("expected", JsonNode::asText)
+        Map.entry("fsm", JsonConverters::toFsm),
+        Map.entry("expected", JsonNode::asText)
     );
     private final TypeLink type = BasicTypeLink.of(SystemVerilogExporter.class);
 
@@ -82,11 +82,11 @@ public abstract class H7_Tests {
         Fsm fsm = params.get("fsm");
         String expected = replaceLineEndings(params.get("expected"));
         call(() -> {
-                    exporter.export(fsm);
-                    bufferedWriter.flush();
-                },
-                emptyContext(),
-                result -> "Failed to export FSM"
+                exporter.export(fsm);
+                bufferedWriter.flush();
+            },
+            emptyContext(),
+            result -> "Failed to export FSM"
         );
         String actual = writer.toString().trim().replaceAll("\s+", " ").replaceAll("\r\n", "\n");
         assertion.accept(expected, actual, contextBuilder().add("Expected", expected).add("Actual", actual).build());
@@ -96,11 +96,11 @@ public abstract class H7_Tests {
         Fsm fsm = params.get("fsm");
         String expected = replaceLineEndings(params.get("expected"));
         call(() -> {
-                    exporter.export(fsm);
-                    bufferedWriter.flush();
-                },
-                emptyContext(),
-                result -> "Failed to export FSM"
+                exporter.export(fsm);
+                bufferedWriter.flush();
+            },
+            emptyContext(),
+            result -> "Failed to export FSM"
         );
         String actual = replaceLineEndings(writer.toString());
         assertion.accept(toList(expected), toList(actual), contextBuilder().add("Expected", expected).add("Actual", actual).build());

@@ -1,6 +1,8 @@
 package h12;
 
+import h12.export.H7_1_Tests;
 import h12.export.H7_2_Tests;
+import h12.export.H7_3_Tests;
 import h12.export.H7_4_Tests;
 import h12.h1.FileSystemIOFactoryTransformer;
 import h12.h1.TutorTests_H1_1_FileSystemIOFactoryPrivateTest;
@@ -253,7 +255,8 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                         .shortDescription("H7.1 | Module Header")
                         .addChildCriteria(
                             criterion(
-                                "Die geforderte Funktionalität wurde korrekt umgesetzt."
+                                "Die geforderte Funktionalität wurde korrekt umgesetzt.",
+                                JUnitTestRef.ofMethod(() -> H7_1_Tests.class.getMethod("testModuleHeader", JsonParameterSet.class))
                             )
                         )
                         .build(),
@@ -270,7 +273,8 @@ public class H12_RubricProviderPrivate implements RubricProvider {
                         .shortDescription("H7.3 | Posedge-Block")
                         .addChildCriteria(
                             criterion(
-                                "Die geforderte Funktionalität wurde korrekt umgesetzt."
+                                "Die geforderte Funktionalität wurde korrekt umgesetzt.",
+                                JUnitTestRef.ofMethod(() -> H7_3_Tests.class.getMethod("testPosedgeBlock", JsonParameterSet.class))
                             )
                         )
                         .build(),
