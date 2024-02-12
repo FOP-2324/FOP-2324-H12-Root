@@ -21,7 +21,7 @@ import org.sourcegrade.jagr.api.testing.RubricConfiguration;
 import org.tudalgo.algoutils.tutor.general.jagr.RubricUtils;
 import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
 
-public class H12_RubricProvider implements RubricProvider {
+public class H12_RubricProviderPublic implements RubricProvider {
 
     private static Criterion criterion(String shortDescription, JUnitTestRef... tests) {
         if (tests.length == 0) {

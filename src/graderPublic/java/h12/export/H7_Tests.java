@@ -107,7 +107,7 @@ public abstract class H7_Tests {
     }
 
     private List<String> toList(String s) {
-        return Arrays.stream(s.trim().split(";")).filter(Predicate.not(String::isBlank)).map(String::trim).map(s1 -> s1 + ";").collect(Collectors.toList());
+        return Arrays.stream(s.trim().replaceAll("\\s+", " ").split(";")).filter(Predicate.not(String::isBlank)).map(String::trim).map(s1 -> s1 + ";").collect(Collectors.toList());
     }
 
     private String replaceLineEndings(String s) {

@@ -95,7 +95,7 @@ public class H6_PrivateTests {
     }
 
     private List<String> toList(String s) {
-        return Arrays.stream(s.trim().split("\n")).filter(Predicate.not(String::isBlank)).collect(Collectors.toList());
+        return Arrays.stream(s.trim().split("\n")).filter(Predicate.not(String::isBlank)).map(str -> str.replaceAll("\\s+", " ")).collect(Collectors.toList());
     }
 
     private String replaceLineEndings(String s) {
